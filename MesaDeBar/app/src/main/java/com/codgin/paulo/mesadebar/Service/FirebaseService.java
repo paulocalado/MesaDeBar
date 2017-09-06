@@ -1,7 +1,17 @@
 package com.codgin.paulo.mesadebar.Service;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import com.codgin.paulo.mesadebar.HomeMesa;
+import com.codgin.paulo.mesadebar.ListaMesa;
+import com.codgin.paulo.mesadebar.MesaAdapter;
 import com.codgin.paulo.mesadebar.Model.Mesa;
 import com.codgin.paulo.mesadebar.Model.User;
+import com.codgin.paulo.mesadebar.RecyclerItemClickListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,7 +38,7 @@ public class FirebaseService {
         usuarioReferencia.setValue(user);
     }
 
-    public List<Mesa> getMesaFirebase(String idUser){
+    public List<Mesa> getMesaFirebase(String idUser, final RecyclerView rvListaMesa, final Context context){
         final List<Mesa> listaMesas = new ArrayList<>();
 
         DatabaseReference mesaReferencia = firebaseReferencia.child("users").child(idUser).child("mesas");
@@ -36,11 +46,33 @@ public class FirebaseService {
         mesaReferencia.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(listaMesas.size()!=0){
+                        listaMesas.clear();
+                    }
 
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         listaMesas.add(postSnapshot.getValue(Mesa.class));
                     }
+                final MesaAdapter adapter = new MesaAdapter(listaMesas);
+                LinearLayoutManager llm = new LinearLayoutManager(context);
+                rvListaMesa.setLayoutManager(llm);
+                rvListaMesa.setAdapter(adapter);
+                rvListaMesa.addOnItemTouchListener(
+                        new RecyclerItemClickListener(context, rvListaMesa ,new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override public void onItemClick(View view, int position) {
+                                // do whatever
+                                Intent intent = new Intent(context, HomeMesa.class);
+                                intent.putExtra("nomeMesa", listaMesas.get(position).getNome().toString());
+                                intent.setClass(context, HomeMesa.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            }
 
+                            @Override public void onLongItemClick(View view, int position) {
+                                // do whatever
+                            }
+                        })
+                );
             }
 
             @Override

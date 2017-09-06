@@ -35,10 +35,10 @@ public class DialogService {
                         Toast.makeText(context, nomeMesa, Toast.LENGTH_LONG).show();
                         Mesa mesa = new Mesa(nomeMesa, 0,0);
                         firebaseService.criarMesaFirebase(idUser, mesa);
-                        Intent i = new Intent();
+                   /*     Intent i = new Intent();
                         i.setClass(context, HomeMesa.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(i);
+                        context.startActivity(i);*/
                         dialog.cancel();
                     }
                 });
