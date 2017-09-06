@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MesaDeBar</string>
+    <string name="facebook_app_id">134191107167000</string>
+    <string name="titulo_lista_mesas">, bem-vindo! Estas são suas mesas </string>
+    <string name="btn_criar_mesa">Criar Mesa</string>
+    <string name="title_criar_mesa_dialog">Deseja criar uma nova mesa?</string>
+    <string name="hint_criar_mesa_dialog">Dê um nome para sua nova mesa</string>
+    <string name="positive_button">Sim</string>
+    <string name="negative_button">Não</string>
+</resources>

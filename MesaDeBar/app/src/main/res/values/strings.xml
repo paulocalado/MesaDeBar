@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">MesaDeBar</string>
+    <string name="facebook_app_id">134191107167000</string>
+    <string name="titulo_lista_mesas">, welcome, those are your tables: </string>
+    <string name="btn_criar_mesa">Create Table</string>
+    <string name="title_activity_home_mesa">HomeMesa</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_criar_mesa_dialog">Want to add another table?</string>
+    <string name="hint_criar_mesa_dialog">Give a name for it!</string>
+    <string name="positive_button">Yes</string>
+    <string name="negative_button">No</string>
+</resources>
