@@ -31,7 +31,7 @@ public class FirebaseService {
     public List<Mesa> getMesaFirebase(String idUser){
         final List<Mesa> listaMesas = new ArrayList<>();
 
-        DatabaseReference mesaReferencia = firebaseReferencia.child("produtos");
+        DatabaseReference mesaReferencia = firebaseReferencia.child("users").child(idUser).child("mesas");
          final Mesa mesaToAdd = new Mesa();
         mesaReferencia.addValueEventListener(new ValueEventListener() {
             @Override

@@ -11,7 +11,7 @@ import android.widget.TextView;
 public class HomeMesa extends AppCompatActivity {
 
     private TextView mTextMessage;
-
+    String teste;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -19,9 +19,7 @@ public class HomeMesa extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
-                    Intent teste = new Intent(HomeMesa.this, ListaMesa.class);
-                    startActivity(teste);
+                    mTextMessage.setText(teste);
                     return true;
                 case R.id.navigation_dashboard:
                     mTextMessage.setText(R.string.title_dashboard);
@@ -39,6 +37,8 @@ public class HomeMesa extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_mesa);
+        Intent intentListaMesa = getIntent();
+        teste = intentListaMesa.getStringExtra("nomeMesa");
 
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);

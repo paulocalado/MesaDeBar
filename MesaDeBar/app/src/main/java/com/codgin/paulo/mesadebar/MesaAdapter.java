@@ -20,7 +20,6 @@ import java.util.List;
 public class MesaAdapter extends RecyclerView.Adapter<MesaAdapter.MesaViewHolder> {
     List<Mesa> listaMesas;
     static OnItemClickListener mItemClickListener;
-
     MesaAdapter(List<Mesa> listaMesas){
         this.listaMesas = listaMesas;
     }

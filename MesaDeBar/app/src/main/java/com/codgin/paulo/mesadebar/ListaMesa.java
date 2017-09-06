@@ -45,6 +45,7 @@ public class ListaMesa extends AppCompatActivity {
         }
         //listaMesa = firebaseService.getMesaFirebase(profile.getId());
         final MesaAdapter adapter = new MesaAdapter(listaMesa);
+        final List<Mesa> listAux = listaMesa;
 
         btnCriarMesaActivity = (Button)findViewById(R.id.btnCriarMesaActivity);
         txtListaMesaActivity = (TextView)findViewById(R.id.txtTituloListaMesaActivity);
@@ -54,12 +55,20 @@ public class ListaMesa extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
         rvListaMesa.setLayoutManager(llm);
         rvListaMesa.setAdapter(adapter);
-        rvListaMesa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ListaMesa.this,"testando",Toast.LENGTH_SHORT).show();
-            }
-        });
+        rvListaMesa.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, rvListaMesa ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        // do whatever
+                        Intent intent = new Intent(ListaMesa.this, HomeMesa.class);
+                        intent.putExtra("nomeMesa", listAux.get(position).getNome().toString());
+                        startActivity(intent);
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
 
 
         btnCriarMesaActivity.setOnClickListener(new View.OnClickListener() {
