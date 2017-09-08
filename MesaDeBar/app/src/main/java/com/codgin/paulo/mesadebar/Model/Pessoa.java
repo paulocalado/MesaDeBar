@@ -11,6 +11,10 @@ public class Pessoa {
     float total;
     List<Produto> produtos;
 
+    public  Pessoa(){
+
+    }
+
     public Pessoa(String nome, float total) {
         this.nome = nome;
         this.total = total;

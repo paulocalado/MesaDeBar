@@ -9,6 +9,7 @@ import android.widget.Toast;
 import android.app.Service;
 import com.codgin.paulo.mesadebar.HomeMesa;
 import com.codgin.paulo.mesadebar.Model.Mesa;
+import com.codgin.paulo.mesadebar.Model.Pessoa;
 import com.codgin.paulo.mesadebar.R;
 
 
@@ -35,10 +36,42 @@ public class DialogService {
                         Toast.makeText(context, nomeMesa, Toast.LENGTH_LONG).show();
                         Mesa mesa = new Mesa(nomeMesa, 0,0);
                         firebaseService.criarMesaFirebase(idUser, mesa);
-                   /*     Intent i = new Intent();
-                        i.setClass(context, HomeMesa.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(i);*/
+                        dialog.cancel();
+                    }
+                });
+
+        builder1.setNegativeButton(
+                R.string.negative_button,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        builder1.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+
+            }
+        });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    public void dialogAddPessoa(final Context context, final String idUser, final String nomeMesa){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(R.string.title_criar_mesa_dialog);
+        builder1.setCancelable(false);
+        final EditText input = new EditText(context);
+        input.setHint(R.string.hint_criar_mesa_dialog);
+        builder1.setView(input);
+        builder1.setPositiveButton(
+                R.string.positive_button,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String nomePessoa = input.getText().toString();
+                        Pessoa pessoa = new Pessoa(nomePessoa,0);
+                        firebaseService.addPessoaMesaFirebase(idUser, nomeMesa, pessoa);
                         dialog.cancel();
                     }
                 });

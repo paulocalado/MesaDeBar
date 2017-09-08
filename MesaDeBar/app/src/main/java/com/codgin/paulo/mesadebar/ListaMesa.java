@@ -73,11 +73,8 @@ public class ListaMesa extends AppCompatActivity {
         super.onResume();
         Toast.makeText(this, "on resume", Toast.LENGTH_SHORT).show();
         listaMesa.clear();
-        listaMesa = firebaseService.getMesaFirebase(id, rvListaMesa, getApplicationContext());
-        final MesaAdapter adapter = new MesaAdapter(listaMesa);
-        LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
-        rvListaMesa.setLayoutManager(llm);
-        rvListaMesa.setAdapter(adapter);
+        firebaseService.getMesaFirebase(id, rvListaMesa, getApplicationContext());
+
     }
 
 }

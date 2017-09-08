@@ -10,7 +10,9 @@ import com.codgin.paulo.mesadebar.HomeMesa;
 import com.codgin.paulo.mesadebar.ListaMesa;
 import com.codgin.paulo.mesadebar.MesaAdapter;
 import com.codgin.paulo.mesadebar.Model.Mesa;
+import com.codgin.paulo.mesadebar.Model.Pessoa;
 import com.codgin.paulo.mesadebar.Model.User;
+import com.codgin.paulo.mesadebar.PessoaAdapter;
 import com.codgin.paulo.mesadebar.RecyclerItemClickListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,8 +39,48 @@ public class FirebaseService {
         DatabaseReference usuarioReferencia = firebaseReferencia.child("users").child(user.getId());
         usuarioReferencia.setValue(user);
     }
+    public void addPessoaMesaFirebase(String idUser, String nomeMesa, Pessoa pessoa){
+        DatabaseReference usuarioReferencia = firebaseReferencia.child("users")
+                                                .child(idUser)
+                                                .child("mesas")
+                                                .child(nomeMesa)
+                                                .child("pessoas")
+                                                .child(pessoa.getNome());
+        usuarioReferencia.setValue(pessoa);
+    }
 
-    public List<Mesa> getMesaFirebase(String idUser, final RecyclerView rvListaMesa, final Context context){
+    public List<Pessoa> getPessoaFirebase(final String idUser, final String nomeMesa, final RecyclerView rvListaPessoa, final Context context){
+        final List<Pessoa> listaPessoa = new ArrayList<>();
+        DatabaseReference pessoaReferencia = firebaseReferencia.child("users")
+                                            .child(idUser)
+                                            .child("mesas")
+                                            .child(nomeMesa)
+                                            .child("pessoas");
+
+        pessoaReferencia.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(listaPessoa.size()!=0){
+                    listaPessoa.clear();
+                }
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    listaPessoa.add(postSnapshot.getValue(Pessoa.class));
+                }
+                final PessoaAdapter adapter = new PessoaAdapter(listaPessoa);
+                LinearLayoutManager llm = new LinearLayoutManager(context);
+                rvListaPessoa.setLayoutManager(llm);
+                rvListaPessoa.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return listaPessoa;
+    }
+    public List<Mesa> getMesaFirebase(final String idUser, final RecyclerView rvListaMesa, final Context context){
         final List<Mesa> listaMesas = new ArrayList<>();
 
         DatabaseReference mesaReferencia = firebaseReferencia.child("users").child(idUser).child("mesas");
@@ -63,6 +105,7 @@ public class FirebaseService {
                                 // do whatever
                                 Intent intent = new Intent(context, HomeMesa.class);
                                 intent.putExtra("nomeMesa", listaMesas.get(position).getNome().toString());
+                                intent.putExtra("idUser", idUser);
                                 intent.setClass(context, HomeMesa.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 context.startActivity(intent);
@@ -82,4 +125,6 @@ public class FirebaseService {
         });
         return listaMesas;
     }
+
+
 }

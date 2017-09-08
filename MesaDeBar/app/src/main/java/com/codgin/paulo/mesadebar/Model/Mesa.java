@@ -10,7 +10,7 @@ public class Mesa {
     String nome;
     int quantidadePessoas;
     float total;
-    List<Pessoa> pessoas;
+    //List<Pessoa> pessoas;
     public Mesa(){
 
     }
