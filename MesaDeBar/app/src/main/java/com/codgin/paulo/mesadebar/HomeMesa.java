@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.codgin.paulo.mesadebar.Fragments.ListaPessoaFragment;
+import com.codgin.paulo.mesadebar.Fragments.ProdutoFragment;
 
 public class HomeMesa extends AppCompatActivity {
 
@@ -28,12 +31,20 @@ public class HomeMesa extends AppCompatActivity {
                     listaPessoaFragment.setArguments(bundle);
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.content, listaPessoaFragment, "produtoFragment")
+                            .replace(R.id.content, listaPessoaFragment, "listaPessoaFragment")
                             .addToBackStack(null)
                             .commit();
                     return true;
                 case R.id.navigation_dashboard:
-
+                    ProdutoFragment produtoFragment = new ProdutoFragment();
+                    bundle.putString("idUser", idUser);
+                    bundle.putString("nomeMesa", nomeMesa);
+                    produtoFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.content, produtoFragment, "produtoFragment")
+                            .addToBackStack(null)
+                            .commit();
                     return true;
                 case R.id.navigation_notifications:
 
@@ -49,9 +60,16 @@ public class HomeMesa extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_mesa);
 
+
+
         Intent intentListaMesa = getIntent();
         idUser = intentListaMesa.getStringExtra("idUser");
         nomeMesa = intentListaMesa.getStringExtra("nomeMesa");
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(nomeMesa);
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -65,6 +83,20 @@ public class HomeMesa extends AppCompatActivity {
                 .replace(R.id.content, listaPessoaFragment, "produtoFragment")
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; go home
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

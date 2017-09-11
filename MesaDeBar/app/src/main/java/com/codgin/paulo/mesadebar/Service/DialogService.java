@@ -1,16 +1,26 @@
 package com.codgin.paulo.mesadebar.Service;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.widget.AppCompatCheckBox;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.app.Service;
 import com.codgin.paulo.mesadebar.HomeMesa;
 import com.codgin.paulo.mesadebar.Model.Mesa;
 import com.codgin.paulo.mesadebar.Model.Pessoa;
 import com.codgin.paulo.mesadebar.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -92,5 +102,31 @@ public class DialogService {
         });
         AlertDialog alert11 = builder1.create();
         alert11.show();
+    }
+
+    public void dialogAddProduto(final Context context, String idUser, String nomeMesa, List<Pessoa> listaPessoa){
+
+        PessoaFirebaseService pessoaFirebase = new PessoaFirebaseService();
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_add_produto);
+        dialog.setTitle("Adicione a seu Pedido");
+
+        LinearLayout linearLayout = (LinearLayout) dialog.findViewById(R.id.lista_pessoa_dialog);
+
+
+
+        for(final Pessoa pessoa: listaPessoa){
+            CheckBox checkBox = new AppCompatCheckBox(context);
+            checkBox.setText(pessoa.getNome());
+
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    Toast.makeText(context, pessoa.getNome(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            linearLayout.addView(checkBox);
+        }
+        dialog.show();
     }
 }

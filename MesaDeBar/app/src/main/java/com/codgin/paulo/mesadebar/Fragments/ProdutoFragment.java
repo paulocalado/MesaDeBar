@@ -5,26 +5,28 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.Toast;
 
+import com.codgin.paulo.mesadebar.Model.Pessoa;
 import com.codgin.paulo.mesadebar.R;
 import com.codgin.paulo.mesadebar.Service.DialogService;
-import com.codgin.paulo.mesadebar.Service.FirebaseService;
 import com.codgin.paulo.mesadebar.Service.PessoaFirebaseService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ListaPessoaFragment.OnFragmentInteractionListener} interface
+ * {@link ProdutoFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ListaPessoaFragment#newInstance} factory method to
+ * Use the {@link ProdutoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListaPessoaFragment extends Fragment {
+public class ProdutoFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -36,9 +38,7 @@ public class ListaPessoaFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-
-    PessoaFirebaseService firebaseService = new PessoaFirebaseService();
-    public ListaPessoaFragment() {
+    public ProdutoFragment() {
         // Required empty public constructor
     }
 
@@ -48,11 +48,11 @@ public class ListaPessoaFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ListaPessoaFragment.
+     * @return A new instance of fragment ProdutoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListaPessoaFragment newInstance(String param1, String param2) {
-        ListaPessoaFragment fragment = new ListaPessoaFragment();
+    public static ProdutoFragment newInstance(String param1, String param2) {
+        ProdutoFragment fragment = new ProdutoFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -69,34 +69,31 @@ public class ListaPessoaFragment extends Fragment {
         }
     }
 
+
+    List<Pessoa>pessoaList = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_lista_pessoa, container, false);
+        View v = inflater.inflate(R.layout.fragment_produto, container, false);
+        PessoaFirebaseService pessoaFirebaseService = new PessoaFirebaseService();
 
         final Bundle bundle = this.getArguments();
         final String idUser = bundle.getString("idUser");
         final String nomeMesa = bundle.getString("nomeMesa");
 
+        pessoaList = pessoaFirebaseService.getListPessoaFirebase(idUser, nomeMesa);
 
-
-        //initializeComponents
-        FloatingActionButton btnAdicionarPessoa = (FloatingActionButton )v.findViewById(R.id.btnAdicionarPessoa);
-        RecyclerView rvListaPessoa = (RecyclerView)v.findViewById(R.id.rvListaPessoa);
-
-        firebaseService.getPessoaFirebase(idUser,nomeMesa,rvListaPessoa, getContext());
-        btnAdicionarPessoa.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton floatingActionButton = (FloatingActionButton)v.findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogService dialogService = new DialogService();
-                dialogService.dialogAddPessoa(getContext(),idUser,nomeMesa);
+                dialogService.dialogAddProduto(getContext(), idUser, nomeMesa, pessoaList);
             }
         });
-
         return v;
     }
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

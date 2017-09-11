@@ -8,6 +8,8 @@
     <string name="hint_criar_mesa_dialog">Dê um nome para sua nova mesa</string>
     <string name="positive_button">Sim</string>
     <string name="negative_button">Não</string>
+    <string name="edit_dialog_valor_produto">Nos diga agora o valor dele R$:</string>
 
+    <string name="edit_dialog_nome_produto">Nos diga o nome do produto</string>
     <string name="btn_adicionar_pessoa">Adicione uma pessoa a sua mesa!</string>
 </resources>
