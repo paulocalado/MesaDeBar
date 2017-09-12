@@ -119,7 +119,7 @@ public class DialogService {
         TextInputLayout edtNomeProduto = (TextInputLayout) dialog.findViewById(R.id.edtDialogNomeProduto);
         TextInputLayout edtValorProduto = (TextInputLayout)dialog.findViewById(R.id.edit_valor_dialog);
         TextInputLayout edtQtdProduto = (TextInputLayout)dialog.findViewById(R.id.edit_quantidade_produto);
-        Button btnAdicionarProduto = (Button)dialog.findViewById(R.id.btnAdicionarPessoa);
+        Button btnAdicionarProduto = (Button)dialog.findViewById(R.id.btnAdicionarProduto);
 
         for(final Pessoa pessoa: listaPessoa){
             CheckBox checkBox = new AppCompatCheckBox(context);

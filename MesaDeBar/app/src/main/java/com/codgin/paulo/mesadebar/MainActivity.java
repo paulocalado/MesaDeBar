@@ -27,11 +27,15 @@ import com.facebook.login.widget.LoginButton;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     TextView txtStatus;
     LoginButton loginButton;
     CallbackManager callbackManager;
+    List<String> idUsers = new ArrayList<String>();
+    FirebaseService firebaseService = new FirebaseService();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         txtStatus = (TextView) findViewById(R.id.txtStatus);
         loginButton = (LoginButton) findViewById(R.id.login_button);
+        idUsers = firebaseService.getUserFirebase();
 
      /*   try {
             PackageInfo info = getPackageManager().getPackageInfo(
@@ -67,11 +72,23 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
                     Profile profile = Profile.getCurrentProfile();
-                    FirebaseService firebaseService = new FirebaseService();
+
+
                     //txtStatus.setText("ENTROU??????W ");
                     User user = new User(profile.getId(), profile.getFirstName());
-                    firebaseService.criarUsuarioFirebase(user);
                     Intent intentListaMesa = new Intent(MainActivity.this, ListaMesa.class);
+                    boolean criarUser = true;
+                 //   String idUser = user.getId();
+                    for(String id: idUsers){
+                        if(user.getId().equals(id)){
+                            criarUser = false;
+                        }
+                    }
+
+                    if(criarUser){
+                        firebaseService.criarUsuarioFirebase(user);
+                    }
+
                     intentListaMesa.putExtra("profile", profile);
                     startActivity(intentListaMesa);
                 }

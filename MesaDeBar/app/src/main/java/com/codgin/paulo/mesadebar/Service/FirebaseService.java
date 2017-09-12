@@ -49,6 +49,31 @@ public class FirebaseService {
         usuarioReferencia.setValue(pessoa);
     }
 
+    public List<String> getUserFirebase(){
+        final List<String> idUsers = new ArrayList<>();
+        DatabaseReference userReference = firebaseReferencia.child("users");
+
+        userReference.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(idUsers.size()!=0){
+                    idUsers.clear();
+                }
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    idUsers.add(postSnapshot.getValue(User.class).getId());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return idUsers;
+    }
+
     public List<Pessoa> getPessoaFirebase(final String idUser, final String nomeMesa, final RecyclerView rvListaPessoa, final Context context){
         final List<Pessoa> listaPessoa = new ArrayList<>();
         DatabaseReference pessoaReferencia = firebaseReferencia.child("users")

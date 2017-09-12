@@ -10,6 +10,8 @@ public class User {
     String id, nome;
     List<Mesa> mesasUser;
 
+    public User(){}
+
     public User(String id, String nome) {
         this.id = id;
         this.nome = nome;
