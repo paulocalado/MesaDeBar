@@ -14,6 +14,9 @@
     <string name="btn_adicionar_pessoa">Add a person to your table!</string>
     <string name="edit_dialog_nome_produto">Tell us the name of the product</string>
     <string name="edit_dialog_valor_produto">Tell us the value of it $:</string>
+    <string name="edit_dialog_quantidade_produto">How many?</string>
+    <string name="titulo_dialog_add_produto">Time to add a new product:</string>
+    <string name="subtitulo_listaPessoas_dialog_produto">Choose the ones who will consume this</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

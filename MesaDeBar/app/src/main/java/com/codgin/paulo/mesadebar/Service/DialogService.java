@@ -118,6 +118,7 @@ public class DialogService {
         LinearLayout linearLayout = (LinearLayout) dialog.findViewById(R.id.lista_pessoa_dialog);
         TextInputLayout edtNomeProduto = (TextInputLayout) dialog.findViewById(R.id.edtDialogNomeProduto);
         TextInputLayout edtValorProduto = (TextInputLayout)dialog.findViewById(R.id.edit_valor_dialog);
+        TextInputLayout edtQtdProduto = (TextInputLayout)dialog.findViewById(R.id.edit_quantidade_produto);
         Button btnAdicionarProduto = (Button)dialog.findViewById(R.id.btnAdicionarPessoa);
 
         for(final Pessoa pessoa: listaPessoa){

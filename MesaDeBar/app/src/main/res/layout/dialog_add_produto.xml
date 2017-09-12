@@ -13,15 +13,15 @@
         android:layout_alignParentStart="true">
 
 
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:hint="@string/edit_dialog_nome_produto"
-        android:layout_below="@+id/edtDialogNomeProduto"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/edtDialogNomeProduto"
+            android:layout_marginTop="80dp"
+            android:hint="@string/edit_dialog_nome_produto" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -30,7 +30,6 @@
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
-        android:layout_marginTop="46dp"
         android:layout_below="@+id/edtDialogNomeProduto"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -39,12 +38,38 @@
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/edtDialogNomeProduto"
             android:layout_marginTop="36dp"
             android:hint="@string/edit_dialog_valor_produto"
-            android:inputType="numberDecimal"
-            android:layout_below="@+id/edtDialogNomeProduto"
+            android:inputType="numberDecimal" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/edit_quantidade_produto"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_valor_dialog"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="11dp"
+        android:layout_toStartOf="@+id/textView"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignEnd="@+id/textView2">
+
+        <EditText
+            android:id="@+id/editText3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/edtDialogNomeProduto"
+            android:layout_marginTop="36dp"
+            android:hint="@string/edit_dialog_quantidade_produto"
+            android:inputType="number" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -52,39 +77,55 @@
         android:id="@+id/btnAdicionarProduto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
         android:text="Button"
+        android:layout_marginBottom="23dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="52dp" />
+        android:layout_alignParentEnd="true" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"
+        android:text="@string/titulo_dialog_add_produto" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_quantidade_produto"
+        android:layout_centerHorizontal="true"
+        android:text="@string/subtitulo_listaPessoas_dialog_produto" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_below="@+id/edit_valor_dialog"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="11dp"
-        android:layout_above="@+id/btnAdicionarProduto">
+        android:layout_above="@+id/btnAdicionarProduto"
+        android:layout_below="@+id/textView2">
 
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <ScrollView
+            <LinearLayout
+                android:id="@+id/lista_pessoa_dialog"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/lista_pessoa_dialog"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                </LinearLayout>
-            </ScrollView>
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
+
 
 
 </RelativeLayout>

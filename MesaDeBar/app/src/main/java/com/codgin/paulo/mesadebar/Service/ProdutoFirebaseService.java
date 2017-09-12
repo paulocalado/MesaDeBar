@@ -10,7 +10,8 @@ import com.google.firebase.database.FirebaseDatabase;
 public class ProdutoFirebaseService {
     private DatabaseReference firebaseReferencia = FirebaseDatabase.getInstance().getReference();
 
-    
+
+
 }
 
 

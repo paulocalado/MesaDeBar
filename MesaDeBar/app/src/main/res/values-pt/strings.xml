@@ -9,7 +9,9 @@
     <string name="positive_button">Sim</string>
     <string name="negative_button">Não</string>
     <string name="edit_dialog_valor_produto">Nos diga agora o valor dele R$:</string>
-
+    <string name="edit_dialog_quantidade_produto">Digite a quantidade</string>
+    <string name="titulo_dialog_add_produto">Hora de adicionar um novo produto:</string>
     <string name="edit_dialog_nome_produto">Nos diga o nome do produto</string>
     <string name="btn_adicionar_pessoa">Adicione uma pessoa a sua mesa!</string>
+    <string name="subtitulo_listaPessoas_dialog_produto">Com quem você vai dividir?</string>
 </resources>
