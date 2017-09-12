@@ -6,10 +6,11 @@ package com.codgin.paulo.mesadebar.Model;
 
 public class Produto {
     String nome;
-    float valor;
+    double valor;
     int quantidade;
+    public Produto(){}
 
-    public Produto(String nome, float valor, int quantidade) {
+    public Produto(String nome, double valor, int quantidade) {
         this.nome = nome;
         this.valor = valor;
         this.quantidade = quantidade;
@@ -28,11 +29,11 @@ public class Produto {
         this.nome = nome;
     }
 
-    public float getValor() {
+    public double getValor() {
         return valor;
     }
 
-    public void setValor(float valor) {
+    public void setValor(double valor) {
         this.valor = valor;
     }
 

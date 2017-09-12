@@ -20,6 +20,7 @@ import android.app.Service;
 import com.codgin.paulo.mesadebar.HomeMesa;
 import com.codgin.paulo.mesadebar.Model.Mesa;
 import com.codgin.paulo.mesadebar.Model.Pessoa;
+import com.codgin.paulo.mesadebar.Model.Produto;
 import com.codgin.paulo.mesadebar.R;
 
 import java.util.ArrayList;
@@ -107,7 +108,7 @@ public class DialogService {
         alert11.show();
     }
 
-    public void dialogAddProduto(final Context context, String idUser, String nomeMesa, final List<Pessoa> listaPessoa){
+    public void dialogAddProduto(final Context context, final String idUser, final String nomeMesa, final List<Pessoa> listaPessoa){
 
         final List<Pessoa> pessoaListAux = new ArrayList<>();
         PessoaFirebaseService pessoaFirebase = new PessoaFirebaseService();
@@ -116,9 +117,9 @@ public class DialogService {
         dialog.setTitle("Adicione a seu Pedido");
 
         LinearLayout linearLayout = (LinearLayout) dialog.findViewById(R.id.lista_pessoa_dialog);
-        TextInputLayout edtNomeProduto = (TextInputLayout) dialog.findViewById(R.id.edtDialogNomeProduto);
-        TextInputLayout edtValorProduto = (TextInputLayout)dialog.findViewById(R.id.edit_valor_dialog);
-        TextInputLayout edtQtdProduto = (TextInputLayout)dialog.findViewById(R.id.edit_quantidade_produto);
+        final TextInputLayout edtNomeProduto = (TextInputLayout) dialog.findViewById(R.id.edtDialogNomeProduto);
+        final TextInputLayout edtValorProduto = (TextInputLayout)dialog.findViewById(R.id.edit_valor_dialog);
+        final TextInputLayout edtQtdProduto = (TextInputLayout)dialog.findViewById(R.id.edit_quantidade_produto);
         Button btnAdicionarProduto = (Button)dialog.findViewById(R.id.btnAdicionarProduto);
 
         for(final Pessoa pessoa: listaPessoa){
@@ -142,7 +143,15 @@ public class DialogService {
         btnAdicionarProduto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ProdutoFirebaseService produtoFirebaseService = new ProdutoFirebaseService();
+                produtoFirebaseService.addProduto(edtNomeProduto.getEditText().getText().toString(),
+                                                   Double.parseDouble(edtValorProduto.getEditText().getText().toString()),
+                                                    idUser,
+                                                    nomeMesa,
+                                                    Integer.parseInt(edtQtdProduto.getEditText().getText().toString()),
+                                                    pessoaListAux);
 
+                dialog.dismiss();
             }
         });
 
