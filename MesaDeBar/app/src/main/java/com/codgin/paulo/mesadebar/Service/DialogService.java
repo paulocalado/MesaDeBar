@@ -5,7 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -104,16 +107,18 @@ public class DialogService {
         alert11.show();
     }
 
-    public void dialogAddProduto(final Context context, String idUser, String nomeMesa, List<Pessoa> listaPessoa){
+    public void dialogAddProduto(final Context context, String idUser, String nomeMesa, final List<Pessoa> listaPessoa){
 
+        final List<Pessoa> pessoaListAux = new ArrayList<>();
         PessoaFirebaseService pessoaFirebase = new PessoaFirebaseService();
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_add_produto);
         dialog.setTitle("Adicione a seu Pedido");
 
         LinearLayout linearLayout = (LinearLayout) dialog.findViewById(R.id.lista_pessoa_dialog);
-
-
+        TextInputLayout edtNomeProduto = (TextInputLayout) dialog.findViewById(R.id.edtDialogNomeProduto);
+        TextInputLayout edtValorProduto = (TextInputLayout)dialog.findViewById(R.id.edit_valor_dialog);
+        Button btnAdicionarProduto = (Button)dialog.findViewById(R.id.btnAdicionarPessoa);
 
         for(final Pessoa pessoa: listaPessoa){
             CheckBox checkBox = new AppCompatCheckBox(context);
@@ -121,12 +126,25 @@ public class DialogService {
 
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    Toast.makeText(context, pessoa.getNome(), Toast.LENGTH_SHORT).show();
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if(isChecked){
+                        pessoaListAux.add(pessoa);
+                    }else{
+                        pessoaListAux.remove(pessoa);
+                    }
+
                 }
             });
             linearLayout.addView(checkBox);
         }
+
+        btnAdicionarProduto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         dialog.show();
     }
 }
