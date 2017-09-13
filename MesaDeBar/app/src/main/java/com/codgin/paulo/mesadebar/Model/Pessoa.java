@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Pessoa {
     String nome;
-    float total;
+    double total;
     List<Produto> produtos;
 
     public  Pessoa(){
@@ -28,11 +28,11 @@ public class Pessoa {
         this.nome = nome;
     }
 
-    public float getTotal() {
+    public double getTotal() {
         return total;
     }
 
-    public void setTotal(float total) {
+    public void setTotal(double total) {
         this.total = total;
     }
 

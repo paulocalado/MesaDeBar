@@ -22,10 +22,14 @@ public class ProdutoFirebaseService {
                                                 .child(nomeMesa)
                                                 .child("produtosMesa")
                                                 .child(nomeProduto);
+        PessoaFirebaseService pessoaFirebaseService = new PessoaFirebaseService();
+
         Produto produto = new Produto(nomeProduto, valorProduto, qtd);
         CalculatorControl calculatorControl = new CalculatorControl();
 
+
         double totalPorPessoa = calculatorControl.dividePorPessoa(valorProduto, qtd, listaPessoas.size());
+        double totalPessoa = 0;
 
         for(Pessoa pessoa: listaPessoas){
             DatabaseReference pessoaReferencia = firebaseReferencia.child("users")
@@ -36,13 +40,29 @@ public class ProdutoFirebaseService {
                                                                     .child(pessoa.getNome())
                                                                     .child("produtosPessoa")
                                                                     .child(produto.getNome());
+            DatabaseReference pessoaTotalReferencia = firebaseReferencia.child("users")
+                                                                        .child(idUser)
+                                                                        .child("mesas")
+                                                                        .child(nomeMesa)
+                                                                        .child("pessoas")
+                                                                        .child(pessoa.getNome())
+                                                                        .child("total");
+
+
+            totalPessoa = pessoa.getTotal() + totalPorPessoa;
+            pessoa.setTotal(totalPessoa);
             produto.setValor(totalPorPessoa);
             pessoaReferencia.setValue(produto);
+            pessoaTotalReferencia.setValue(totalPessoa);
+
         }
 
+        produto.setValor(valorProduto);
         produtoReferencia.setValue(produto);
 
     }
+
+
 
 }
 

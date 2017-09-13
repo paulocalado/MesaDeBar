@@ -34,7 +34,7 @@ public class MesaAdapter extends RecyclerView.Adapter<MesaAdapter.MesaViewHolder
     @Override
     public void onBindViewHolder(MesaViewHolder holder, int position) {
         holder.txtNomeMesa.setText(String.valueOf(listaMesas.get(position).getNome()));
-        holder.txtQuantidadePessoaMesa.setText(String.valueOf(listaMesas.get(position).getQuantidadePessoas()));
+        holder.txtQuantidadePessoaMesa.setText(String.valueOf(listaMesas.get(position).getQuantidadePessoas())+" Pessoas");
     }
 
     @Override
