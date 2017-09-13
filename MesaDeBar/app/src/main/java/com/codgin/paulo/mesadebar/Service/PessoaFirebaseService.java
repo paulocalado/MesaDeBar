@@ -39,6 +39,11 @@ public class PessoaFirebaseService {
                 .child("mesas")
                 .child(nomeMesa)
                 .child("pessoas");
+       final DatabaseReference mesaReferencia = firebaseReferencia.child("users")
+                                                                .child(idUser)
+                                                                .child("mesas")
+                                                                .child(nomeMesa)
+                                                                .child("quantidadePessoas");
 
         pessoaReferencia.addValueEventListener(new ValueEventListener() {
 
@@ -54,6 +59,7 @@ public class PessoaFirebaseService {
                 LinearLayoutManager llm = new LinearLayoutManager(context);
                 rvListaPessoa.setLayoutManager(llm);
                 rvListaPessoa.setAdapter(adapter);
+                mesaReferencia.setValue(listaPessoa.size());
             }
 
             @Override
@@ -61,6 +67,8 @@ public class PessoaFirebaseService {
 
             }
         });
+
+
         return listaPessoa;
     }
 
@@ -89,6 +97,7 @@ public class PessoaFirebaseService {
 
             }
         });
+
 
         return listaPessoa;
     }

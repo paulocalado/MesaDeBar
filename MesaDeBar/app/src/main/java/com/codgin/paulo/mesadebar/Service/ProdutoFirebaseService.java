@@ -22,7 +22,8 @@ public class ProdutoFirebaseService {
                                                 .child(nomeMesa)
                                                 .child("produtosMesa")
                                                 .child(nomeProduto);
-        PessoaFirebaseService pessoaFirebaseService = new PessoaFirebaseService();
+        FirebaseService mesaFirebase = new FirebaseService();
+
 
         Produto produto = new Produto(nomeProduto, valorProduto, qtd);
         CalculatorControl calculatorControl = new CalculatorControl();
@@ -30,6 +31,7 @@ public class ProdutoFirebaseService {
 
         double totalPorPessoa = calculatorControl.dividePorPessoa(valorProduto, qtd, listaPessoas.size());
         double totalPessoa = 0;
+        double totalMesa = 0;
 
         for(Pessoa pessoa: listaPessoas){
             DatabaseReference pessoaReferencia = firebaseReferencia.child("users")
@@ -51,14 +53,24 @@ public class ProdutoFirebaseService {
 
             totalPessoa = pessoa.getTotal() + totalPorPessoa;
             pessoa.setTotal(totalPessoa);
+            totalMesa += pessoa.getTotal();
+
             produto.setValor(totalPorPessoa);
             pessoaReferencia.setValue(produto);
             pessoaTotalReferencia.setValue(totalPessoa);
 
         }
 
+
         produto.setValor(valorProduto);
         produtoReferencia.setValue(produto);
+        produtoReferencia = firebaseReferencia.child("users")
+                .child(idUser)
+                .child("mesas")
+                .child(nomeMesa)
+                .child("total");
+
+        produtoReferencia.setValue(totalMesa);
 
     }
 

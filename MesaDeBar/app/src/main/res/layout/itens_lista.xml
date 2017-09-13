@@ -19,10 +19,22 @@
             >
 
             <TextView
+                android:id="@+id/txtTotalMesa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/txtQuantidadePessoasMesaLista"
+                android:layout_toEndOf="@+id/txtQuantidadePessoasMesaLista" />
+
+            <TextView
                 android:id="@+id/txtNomeMesaLista"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
+                android:textSize="25dp"
                 android:paddingLeft="10dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"

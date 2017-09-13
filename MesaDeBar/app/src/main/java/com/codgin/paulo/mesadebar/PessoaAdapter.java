@@ -32,7 +32,7 @@ public class PessoaAdapter extends RecyclerView.Adapter<PessoaAdapter.PessoaView
     @Override
     public void onBindViewHolder(PessoaViewHolder holder, int position) {
         holder.txtNomePessoa.setText(listaPessoa.get(position).getNome());
-        holder.txtParcialPessoa.setText("Parcial R$: "+String.valueOf(listaPessoa.get(position).getTotal()));
+        holder.txtParcialPessoa.setText("Parcial R$: "+String.format("%.2f", listaPessoa.get(position).getTotal()));
     }
 
     @Override
