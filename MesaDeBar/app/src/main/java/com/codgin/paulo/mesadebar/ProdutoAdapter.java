@@ -1,7 +1,10 @@
 package com.codgin.paulo.mesadebar;
 
+import android.app.Application;
+import android.content.res.Resources;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,16 +20,24 @@ import java.util.List;
 public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.ProdutoViewHolder> {
     List<Produto> listaProduto;
 
+
     public ProdutoAdapter(List<Produto> listaProduto){this.listaProduto = listaProduto;}
 
     @Override
     public ProdutoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_produto, parent, false);
+        ProdutoViewHolder pvh = new ProdutoViewHolder(v);
+        return pvh;
     }
 
     @Override
     public void onBindViewHolder(ProdutoViewHolder holder, int position) {
 
+        holder.txtNomeProduto.setText(listaProduto.get(position).getNome());
+        holder.txtPrecoProduto.setText(String.valueOf(Resources.getSystem().getString(R.string.txt_preco_produto))
+                +String.format("%.2f", listaProduto.get(position).getValor()));
+        holder.txtQuantidadeProduto.setText(String.valueOf(Resources.getSystem().getString(R.string.txt_quantidade_produto))
+                +String.valueOf(listaProduto.get(position).getQuantidade()));
     }
 
     @Override

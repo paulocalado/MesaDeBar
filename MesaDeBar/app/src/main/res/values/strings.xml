@@ -17,6 +17,9 @@
     <string name="edit_dialog_quantidade_produto">How many?</string>
     <string name="titulo_dialog_add_produto">Time to add a new product:</string>
     <string name="subtitulo_listaPessoas_dialog_produto">Choose the ones who will consume this</string>
+    <string name="txt_preco_produto">Price $: </string>
+    <string name="txt_quantidade_produto">Quantity: </string>
+    <string name="txt_titulo_fragment_produto">Here are the products consumed: </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

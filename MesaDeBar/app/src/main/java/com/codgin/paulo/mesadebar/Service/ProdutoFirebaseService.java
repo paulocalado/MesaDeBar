@@ -1,11 +1,20 @@
 package com.codgin.paulo.mesadebar.Service;
 
+import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
 import com.codgin.paulo.mesadebar.Control.CalculatorControl;
 import com.codgin.paulo.mesadebar.Model.Pessoa;
 import com.codgin.paulo.mesadebar.Model.Produto;
+import com.codgin.paulo.mesadebar.ProdutoAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,12 +31,9 @@ public class ProdutoFirebaseService {
                                                 .child(nomeMesa)
                                                 .child("produtosMesa")
                                                 .child(nomeProduto);
-        FirebaseService mesaFirebase = new FirebaseService();
-
 
         Produto produto = new Produto(nomeProduto, valorProduto, qtd);
         CalculatorControl calculatorControl = new CalculatorControl();
-
 
         double totalPorPessoa = calculatorControl.dividePorPessoa(valorProduto, qtd, listaPessoas.size());
         double totalPessoa = 0;
@@ -74,7 +80,38 @@ public class ProdutoFirebaseService {
 
     }
 
+    public List<Produto> getProductMesaFirebase(final String idUser, final String nomeMesa, final RecyclerView rvListaPessoa, final Context context){
+        final List<Produto> listaProduto = new ArrayList<>();
+        DatabaseReference produtoReferencia = firebaseReferencia.child("users")
+                                                                .child(idUser)
+                                                                .child("mesas")
+                                                                .child(nomeMesa)
+                                                                .child("produtosMesa");
 
+        produtoReferencia.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(listaProduto.size()!=0){
+                    listaProduto.clear();
+                }
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    listaProduto.add(postSnapshot.getValue(Produto.class));
+                }
+                final ProdutoAdapter adapter = new ProdutoAdapter(listaProduto);
+                LinearLayoutManager llm = new LinearLayoutManager(context);
+                rvListaPessoa.setLayoutManager(llm);
+                rvListaPessoa.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        return listaProduto;
+    }
 
 }
 

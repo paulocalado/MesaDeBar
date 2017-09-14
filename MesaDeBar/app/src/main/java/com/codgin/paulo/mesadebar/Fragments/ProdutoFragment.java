@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.codgin.paulo.mesadebar.Model.Pessoa;
 import com.codgin.paulo.mesadebar.R;
 import com.codgin.paulo.mesadebar.Service.DialogService;
 import com.codgin.paulo.mesadebar.Service.PessoaFirebaseService;
+import com.codgin.paulo.mesadebar.Service.ProdutoFirebaseService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,14 +79,19 @@ public class ProdutoFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_produto, container, false);
         PessoaFirebaseService pessoaFirebaseService = new PessoaFirebaseService();
+        ProdutoFirebaseService produtoFirebaseService = new ProdutoFirebaseService();
+
+        FloatingActionButton floatingActionButton = (FloatingActionButton)v.findViewById(R.id.floatingActionButton);
+        RecyclerView rvListaProdutomesa = (RecyclerView)v.findViewById(R.id.rvListaProdutoFragment);
 
         final Bundle bundle = this.getArguments();
         final String idUser = bundle.getString("idUser");
         final String nomeMesa = bundle.getString("nomeMesa");
 
+        produtoFirebaseService.getProductMesaFirebase(idUser, nomeMesa,rvListaProdutomesa, getContext());
         pessoaList = pessoaFirebaseService.getListPessoaFirebase(idUser, nomeMesa);
 
-        FloatingActionButton floatingActionButton = (FloatingActionButton)v.findViewById(R.id.floatingActionButton);
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

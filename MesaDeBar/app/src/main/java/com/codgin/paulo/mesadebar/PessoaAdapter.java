@@ -24,7 +24,7 @@ public class PessoaAdapter extends RecyclerView.Adapter<PessoaAdapter.PessoaView
 
     @Override
     public PessoaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.itens_lista, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_pessoa, parent, false);
         PessoaViewHolder pvh = new PessoaViewHolder(v);
         return pvh;
     }
@@ -48,8 +48,8 @@ public class PessoaAdapter extends RecyclerView.Adapter<PessoaAdapter.PessoaView
         PessoaViewHolder(View itemView){
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cardListaPessoa);
-            txtNomePessoa = (TextView)itemView.findViewById(R.id.txtNomeMesaLista);
-            txtParcialPessoa = (TextView)itemView.findViewById(R.id.txtQuantidadePessoasMesaLista);
+            txtNomePessoa = (TextView)itemView.findViewById(R.id.txtNomePessoa);
+            txtParcialPessoa = (TextView)itemView.findViewById(R.id.txtParcialPessoa);
 
         }
 
