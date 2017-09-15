@@ -3,9 +3,12 @@ package com.codgin.paulo.mesadebar.Service;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.codgin.paulo.mesadebar.Model.Pessoa;
+import com.codgin.paulo.mesadebar.Model.Produto;
 import com.codgin.paulo.mesadebar.PessoaAdapter;
+import com.codgin.paulo.mesadebar.RecyclerItemClickListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +24,8 @@ import java.util.List;
 
 public class PessoaFirebaseService {
     private  DatabaseReference firebaseReferencia = FirebaseDatabase.getInstance().getReference();
+    DialogService dialogService = new DialogService();
+    ProdutoFirebaseService produtoService = new ProdutoFirebaseService();
 
     public void addPessoaMesaFirebase(String idUser, String nomeMesa, Pessoa pessoa){
         DatabaseReference usuarioReferencia = firebaseReferencia.child("users")
@@ -60,6 +65,20 @@ public class PessoaFirebaseService {
                 rvListaPessoa.setLayoutManager(llm);
                 rvListaPessoa.setAdapter(adapter);
                 mesaReferencia.setValue(listaPessoa.size());
+                rvListaPessoa.addOnItemTouchListener(
+                        new RecyclerItemClickListener(context, rvListaPessoa ,new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override public void onItemClick(View view, int position) {
+                                // do whatever
+                                List<Produto> listaProduto = new ArrayList<Produto>();
+                                listaProduto = produtoService.getProdutoPessoaFirebase(idUser,nomeMesa, listaPessoa.get(position).getNome());
+                                dialogService.dialogProdutoPessoa(nomeMesa,idUser, context, listaProduto);
+                            }
+
+                            @Override public void onLongItemClick(View view, int position) {
+                                // do whatever
+                            }
+                        })
+                );
             }
 
             @Override

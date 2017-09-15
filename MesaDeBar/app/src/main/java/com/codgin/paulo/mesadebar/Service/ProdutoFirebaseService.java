@@ -113,6 +113,39 @@ public class ProdutoFirebaseService {
         return listaProduto;
     }
 
+    public List<Produto> getProdutoPessoaFirebase(final String idUser,
+                                                  final String nomeMesa,
+                                                  final String nomePessoa)
+                                                 {
+        final List<Produto> listaProduto = new ArrayList<>();
+        DatabaseReference produtoReferencia = firebaseReferencia.child("users")
+                                                                .child(idUser)
+                                                                .child("mesas")
+                                                                .child(nomeMesa)
+                                                                .child("pessoas")
+                                                                .child(nomePessoa)
+                                                                .child("produtosPessoa");
+
+        produtoReferencia.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(listaProduto.size()!=0){
+                    listaProduto.clear();
+                }
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    listaProduto.add(postSnapshot.getValue(Produto.class));
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return listaProduto;
+    }
 }
 
 

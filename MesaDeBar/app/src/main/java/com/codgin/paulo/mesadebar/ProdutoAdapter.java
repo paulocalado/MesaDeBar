@@ -34,9 +34,9 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.ProdutoV
     public void onBindViewHolder(ProdutoViewHolder holder, int position) {
 
         holder.txtNomeProduto.setText(listaProduto.get(position).getNome());
-        holder.txtPrecoProduto.setText(String.valueOf(Resources.getSystem().getString(R.string.txt_preco_produto))
+        holder.txtPrecoProduto.setText(holder.txtNomeProduto.getContext().getResources().getString(R.string.txt_preco_produto)
                 +String.format("%.2f", listaProduto.get(position).getValor()));
-        holder.txtQuantidadeProduto.setText(String.valueOf(Resources.getSystem().getString(R.string.txt_quantidade_produto))
+        holder.txtQuantidadeProduto.setText(holder.txtQuantidadeProduto.getContext().getResources().getString(R.string.txt_quantidade_produto)
                 +String.valueOf(listaProduto.get(position).getQuantidade()));
     }
 

@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,12 +17,14 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.app.Service;
 import com.codgin.paulo.mesadebar.HomeMesa;
 import com.codgin.paulo.mesadebar.Model.Mesa;
 import com.codgin.paulo.mesadebar.Model.Pessoa;
 import com.codgin.paulo.mesadebar.Model.Produto;
+import com.codgin.paulo.mesadebar.ProdutoAdapter;
 import com.codgin.paulo.mesadebar.R;
 
 import java.util.ArrayList;
@@ -156,5 +160,19 @@ public class DialogService {
         });
 
         dialog.show();
+    }
+
+    public void dialogProdutoPessoa(final String nomeMesa, final String idUser, final Context context, final List<Produto> listaProduto){
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_produtos_pessoa);
+
+        RecyclerView rvProdutoPessoa = (RecyclerView)dialog.findViewById(R.id.rvDialogPessoaProduto);
+        final ProdutoAdapter adapter = new ProdutoAdapter(listaProduto);
+        LinearLayoutManager llm = new LinearLayoutManager(context);
+        rvProdutoPessoa.setLayoutManager(llm);
+        rvProdutoPessoa.setAdapter(adapter);
+
+        dialog.show();
+
     }
 }
