@@ -24,7 +24,7 @@ import java.util.List;
 public class ProdutoFirebaseService {
     private DatabaseReference firebaseReferencia = FirebaseDatabase.getInstance().getReference();
 
-    public void addProduto(String nomeProduto, double valorProduto, String idUser, String nomeMesa, int qtd, List<Pessoa> listaPessoas){
+    public void addProduto(String nomeProduto, double valorProduto, String idUser, String nomeMesa, int qtd, List<Pessoa> listaPessoas, List<Pessoa> listaPessoasComplemento){
         DatabaseReference produtoReferencia = firebaseReferencia.child("users")
                                                 .child(idUser)
                                                 .child("mesas")
@@ -65,6 +65,10 @@ public class ProdutoFirebaseService {
             pessoaReferencia.setValue(produto);
             pessoaTotalReferencia.setValue(totalPessoa);
 
+        }
+
+        for(Pessoa pessoa : listaPessoasComplemento){
+            totalMesa += pessoa.getTotal();
         }
 
 
