@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Service;
 import com.codgin.paulo.mesadebar.HomeMesa;
@@ -176,6 +177,26 @@ public class DialogService {
 
         dialog.show();
 
+    }
+
+    public void dialogDetalheProduto(Produto produto,
+                                     final String nomeMesa,
+                                     final String idUser,
+                                     Context context){
+        final  Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_detalhes_produto);
+
+        TextView txtNomeProduto = (TextView)dialog.findViewById(R.id.txtNomeProdutoDetalhe);
+        TextView txtPrecoProduto = (TextView)dialog.findViewById(R.id.txtPrecoDetalhe);
+        TextView txtQuantidadeProduto = (TextView)dialog.findViewById(R.id.txtQuantidadeProdutoDetalhe);
+        TextView txtDeletaProduto = (TextView)dialog.findViewById(R.id.txtDeletarProduto);
+        TextView txtUpdateProduto = (TextView)dialog.findViewById(R.id.txtAlterarProduto);
+
+        txtNomeProduto.setText(produto.getNome());
+        txtPrecoProduto.setText(String.format("%.2f",produto.getValor()));
+        txtQuantidadeProduto.setText(String.valueOf(produto.getQuantidade()));
+
+        dialog.show();
     }
 
 
