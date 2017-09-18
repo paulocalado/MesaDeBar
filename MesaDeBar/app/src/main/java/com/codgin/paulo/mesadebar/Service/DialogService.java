@@ -189,7 +189,7 @@ public class DialogService {
         TextView txtNomeProduto = (TextView)dialog.findViewById(R.id.txtNomeProdutoDetalhe);
         TextView txtPrecoProduto = (TextView)dialog.findViewById(R.id.txtPrecoDetalhe);
         TextView txtQuantidadeProduto = (TextView)dialog.findViewById(R.id.txtQuantidadeProdutoDetalhe);
-        TextView txtDeletaProduto = (TextView)dialog.findViewById(R.id.txtDeletarProduto);
+
         TextView txtUpdateProduto = (TextView)dialog.findViewById(R.id.txtAlterarProduto);
 
         txtNomeProduto.setText(produto.getNome());
@@ -199,5 +199,30 @@ public class DialogService {
         dialog.show();
     }
 
+    public void deletaProdutoPessoa(final String nomeMesa,
+                                    final String iduser,
+                                    final String nomeProduto,
+                                    Context context,
+                                    List<Pessoa> pessoaList){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Deletar produto");
+        builder.setMessage("Deletar "+nomeProduto+"?");
+        builder.setCancelable(false);
+        builder.setPositiveButton(R.string.positive_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.setNegativeButton(R.string.negative_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.create().show();
+    }
 
 }

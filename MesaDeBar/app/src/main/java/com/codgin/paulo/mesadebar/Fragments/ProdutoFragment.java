@@ -88,8 +88,8 @@ public class ProdutoFragment extends Fragment {
         final String idUser = bundle.getString("idUser");
         final String nomeMesa = bundle.getString("nomeMesa");
 
-        produtoFirebaseService.getProductMesaFirebase(idUser, nomeMesa,rvListaProdutomesa, getContext());
         pessoaList = pessoaFirebaseService.getListPessoaFirebase(idUser, nomeMesa);
+        produtoFirebaseService.getProductMesaFirebase(idUser, nomeMesa,rvListaProdutomesa, getContext(), pessoaList);
 
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {

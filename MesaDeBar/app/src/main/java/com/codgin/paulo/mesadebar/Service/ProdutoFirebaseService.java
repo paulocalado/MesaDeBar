@@ -1,13 +1,16 @@
 package com.codgin.paulo.mesadebar.Service;
 
 import android.content.Context;
+import android.os.Vibrator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.codgin.paulo.mesadebar.Control.CalculatorControl;
 import com.codgin.paulo.mesadebar.Model.Pessoa;
 import com.codgin.paulo.mesadebar.Model.Produto;
 import com.codgin.paulo.mesadebar.ProdutoAdapter;
+import com.codgin.paulo.mesadebar.RecyclerItemClickListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +26,7 @@ import java.util.List;
 
 public class ProdutoFirebaseService {
     private DatabaseReference firebaseReferencia = FirebaseDatabase.getInstance().getReference();
+    public DialogService dialogService = new DialogService();
 
     public void addProduto(String nomeProduto, double valorProduto, String idUser, String nomeMesa, int qtd, List<Pessoa> listaPessoas, List<Pessoa> listaPessoasComplemento){
         DatabaseReference produtoReferencia = firebaseReferencia.child("users")
@@ -84,7 +88,11 @@ public class ProdutoFirebaseService {
 
     }
 
-    public List<Produto> getProductMesaFirebase(final String idUser, final String nomeMesa, final RecyclerView rvListaPessoa, final Context context){
+    public List<Produto> getProductMesaFirebase(final String idUser,
+                                                final String nomeMesa,
+                                                final RecyclerView rvListaProduto,
+                                                final Context context,
+                                                final List<Pessoa> listaPessoas){
         final List<Produto> listaProduto = new ArrayList<>();
         DatabaseReference produtoReferencia = firebaseReferencia.child("users")
                                                                 .child(idUser)
@@ -103,8 +111,24 @@ public class ProdutoFirebaseService {
                 }
                 final ProdutoAdapter adapter = new ProdutoAdapter(listaProduto);
                 LinearLayoutManager llm = new LinearLayoutManager(context);
-                rvListaPessoa.setLayoutManager(llm);
-                rvListaPessoa.setAdapter(adapter);
+                rvListaProduto.setLayoutManager(llm);
+                rvListaProduto.setAdapter(adapter);
+                rvListaProduto.addOnItemTouchListener(
+                        new RecyclerItemClickListener(context, rvListaProduto ,new RecyclerItemClickListener.OnItemClickListener(){
+                            @Override public void onItemClick(View view, int position) {
+                                // do whatever
+
+                            }
+
+                            @Override public void onLongItemClick(View view, int position) {
+                                // do whatever
+                                Vibrator v = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
+                                dialogService.deletaProdutoPessoa(nomeMesa, idUser, listaProduto.get(position).getNome(), context, listaPessoas);
+                                // Vibrate for 500 milliseconds
+                                v.vibrate(500);
+                            }
+                        })
+                );
             }
 
             @Override
