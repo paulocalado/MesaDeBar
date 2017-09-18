@@ -203,7 +203,7 @@ public class DialogService {
                                     final String iduser,
                                     final String nomeProduto,
                                     Context context,
-                                    List<Pessoa> pessoaList){
+                                    final List<Pessoa> pessoaList){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Deletar produto");
         builder.setMessage("Deletar "+nomeProduto+"?");
@@ -211,7 +211,10 @@ public class DialogService {
         builder.setPositiveButton(R.string.positive_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                ProdutoFirebaseService produtoFirebaseService = new ProdutoFirebaseService();
+                PessoaFirebaseService pessoaFirebaseService = new PessoaFirebaseService();
+                pessoaFirebaseService.deletaProdutoPessoaFirebase(iduser,nomeMesa,nomeProduto,pessoaList);
+                produtoFirebaseService.deletaProdutoMesaFirebase(iduser, nomeMesa, nomeProduto);
             }
         });
 

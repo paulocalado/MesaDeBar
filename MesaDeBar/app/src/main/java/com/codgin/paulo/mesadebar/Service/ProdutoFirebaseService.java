@@ -122,6 +122,7 @@ public class ProdutoFirebaseService {
 
                             @Override public void onLongItemClick(View view, int position) {
                                 // do whatever
+
                                 Vibrator v = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
                                 dialogService.deletaProdutoPessoa(nomeMesa, idUser, listaProduto.get(position).getNome(), context, listaPessoas);
                                 // Vibrate for 500 milliseconds
@@ -173,6 +174,20 @@ public class ProdutoFirebaseService {
         });
 
         return listaProduto;
+    }
+
+    public void deletaProdutoMesaFirebase(final String idUser,
+                                            final String nomeMesa,
+                                            final String nomeProduto
+                                            ){
+        DatabaseReference produtoReferencia = firebaseReferencia.child("users")
+                                                                .child(idUser)
+                                                                .child("mesas")
+                                                                .child(nomeMesa)
+                                                                .child("produtosMesa")
+                                                                .child(nomeProduto);
+
+        produtoReferencia.removeValue();
     }
 }
 

@@ -121,5 +121,23 @@ public class PessoaFirebaseService {
         return listaPessoa;
     }
 
+    public void deletaProdutoPessoaFirebase(final String idUser,
+                                            final String nomeMesa,
+                                            final String nomeProduto,
+                                            final List<Pessoa> listaPessoa){
 
+
+        for(Pessoa pessoa: listaPessoa){
+            DatabaseReference produtoReferencia = firebaseReferencia.child("users")
+                    .child(idUser)
+                    .child("mesas")
+                    .child(nomeMesa)
+                    .child("pessoas")
+                    .child(pessoa.getNome())
+                    .child("produtosPessoa")
+                    .child(nomeProduto);
+
+            produtoReferencia.removeValue();
+        }
+    }
 }
