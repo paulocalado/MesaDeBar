@@ -11,10 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.codgin.paulo.mesadebar.Model.Pessoa;
 import com.codgin.paulo.mesadebar.R;
 import com.codgin.paulo.mesadebar.Service.DialogService;
 import com.codgin.paulo.mesadebar.Service.FirebaseService;
 import com.codgin.paulo.mesadebar.Service.PessoaFirebaseService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -84,8 +88,8 @@ public class ListaPessoaFragment extends Fragment {
         //initializeComponents
         FloatingActionButton btnAdicionarPessoa = (FloatingActionButton )v.findViewById(R.id.btnAdicionarPessoa);
         RecyclerView rvListaPessoa = (RecyclerView)v.findViewById(R.id.rvListaPessoa);
-
         firebaseService.getPessoaFirebase(idUser,nomeMesa,rvListaPessoa, getContext());
+
         btnAdicionarPessoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

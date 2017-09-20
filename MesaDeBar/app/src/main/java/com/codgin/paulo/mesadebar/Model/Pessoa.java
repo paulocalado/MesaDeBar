@@ -10,7 +10,7 @@ import java.util.List;
 public class Pessoa {
     String nome;
     double total;
-    HashMap<String, Object> produtosPessoa;
+    HashMap<String, Produto> produtosPessoa;
 
     public  Pessoa(){
 
@@ -21,7 +21,7 @@ public class Pessoa {
         this.total = total;
     }
 
-    public Pessoa(String nome, float total, HashMap<String, Object> produtosPessoa) {
+    public Pessoa(String nome, float total, HashMap<String, Produto> produtosPessoa) {
         this.nome = nome;
         this.total = total;
         this.produtosPessoa = produtosPessoa;
@@ -43,11 +43,11 @@ public class Pessoa {
         this.total = total;
     }
 
-    public HashMap<String, Object> getProdutos() {
+    public HashMap<String, Produto> getProdutos() {
         return produtosPessoa;
     }
 
-    public void setProdutos(HashMap<String, Object> produtosPessoa) {
+    public void setProdutos(HashMap<String, Produto> produtosPessoa) {
         this.produtosPessoa = produtosPessoa;
     }
 }
