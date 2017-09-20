@@ -13,6 +13,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -121,13 +122,52 @@ public class PessoaFirebaseService {
         return listaPessoa;
     }
 
+    public double getTotalPorPessoa(final String idUser,
+                                    final String nomeMesa,
+                                    Pessoa pessoa){
+        double totalPorPessoa = 0;
+       final List<Produto> produtoLista = new ArrayList<>();
+        DatabaseReference produtoReferencia = firebaseReferencia.child("users")
+                .child(idUser)
+                .child("mesas")
+                .child(nomeMesa)
+                .child("pessoas")
+                .child(pessoa.getNome())
+                .child("produtosPessoa");
+
+
+        produtoReferencia.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(produtoLista.size()!=0){
+                    produtoLista.clear();
+                }
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    produtoLista.add(postSnapshot.getValue(Produto.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        for(Produto produto: produtoLista){
+            totalPorPessoa+=produto.getValor();
+        }
+
+        return totalPorPessoa;
+    }
+
     public void deletaProdutoPessoaFirebase(final String idUser,
                                             final String nomeMesa,
                                             final String nomeProduto,
                                             final List<Pessoa> listaPessoa){
 
+        final List<Pessoa> listaPessoaAux = new ArrayList<>();
+        for(final Pessoa pessoa: listaPessoa){
 
-        for(Pessoa pessoa: listaPessoa){
             DatabaseReference produtoReferencia = firebaseReferencia.child("users")
                     .child(idUser)
                     .child("mesas")
@@ -138,6 +178,9 @@ public class PessoaFirebaseService {
                     .child(nomeProduto);
 
             produtoReferencia.removeValue();
+
         }
+
+
     }
 }

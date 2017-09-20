@@ -1,5 +1,6 @@
 package com.codgin.paulo.mesadebar.Model;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
 public class Pessoa {
     String nome;
     double total;
-    List<Produto> produtos;
+    HashMap<String, Object> produtosPessoa;
 
     public  Pessoa(){
 
@@ -18,6 +19,12 @@ public class Pessoa {
     public Pessoa(String nome, float total) {
         this.nome = nome;
         this.total = total;
+    }
+
+    public Pessoa(String nome, float total, HashMap<String, Object> produtosPessoa) {
+        this.nome = nome;
+        this.total = total;
+        this.produtosPessoa = produtosPessoa;
     }
 
     public String getNome() {
@@ -36,11 +43,11 @@ public class Pessoa {
         this.total = total;
     }
 
-    public List<Produto> getProdutos() {
-        return produtos;
+    public HashMap<String, Object> getProdutos() {
+        return produtosPessoa;
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
+    public void setProdutos(HashMap<String, Object> produtosPessoa) {
+        this.produtosPessoa = produtosPessoa;
     }
 }
