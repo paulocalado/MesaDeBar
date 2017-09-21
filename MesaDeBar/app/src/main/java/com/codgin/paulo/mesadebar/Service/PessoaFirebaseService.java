@@ -111,28 +111,30 @@ public class PessoaFirebaseService {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     listaPessoa.add(postSnapshot.getValue(Pessoa.class));
                     //TODO tentar arrumar essa porra aqui
-                    for(Pessoa pessoa: listaPessoa){
-                        double totalPorPessoa = 0;
-                        if(pessoa.getProdutos()!= null){
-                            for (HashMap.Entry<String, Produto> entry : pessoa.getProdutos().entrySet()) {
+
+                }
+
+                for(Pessoa pessoa: listaPessoa){
+                    double totalPorPessoa = 0;
+                    if(pessoa.getProdutos()!= null){
+                        for (HashMap.Entry<String, Produto> entry : pessoa.getProdutos().entrySet()) {
 
                             Produto produto = entry.getValue();
                             totalPorPessoa+= produto.getValor();
-                            }
                         }
-
-
-                        DatabaseReference totalReferencia = firebaseReferencia.child("users")
-                                .child(idUser)
-                                .child("mesas")
-                                .child(nomeMesa)
-                                .child("pessoas")
-                                .child(pessoa.getNome())
-                                .child("total");
-
-                        totalReferencia.setValue(totalPorPessoa);
-
                     }
+
+
+                    DatabaseReference totalReferencia = firebaseReferencia.child("users")
+                            .child(idUser)
+                            .child("mesas")
+                            .child(nomeMesa)
+                            .child("pessoas")
+                            .child(pessoa.getNome())
+                            .child("total");
+
+                    totalReferencia.setValue(totalPorPessoa);
+
                 }
             }
 
@@ -177,39 +179,6 @@ public class PessoaFirebaseService {
         return listaPessoa;
     }
 
-    public double getTotalPorPessoa(final String idUser,
-                                    final String nomeMesa){
-        double totalPorPessoa = 0;
-       final List<Pessoa> listaPessoa = new ArrayList<>();
-        DatabaseReference produtoReferencia = firebaseReferencia.child("users")
-                .child(idUser)
-                .child("mesas")
-                .child(nomeMesa)
-                .child("pessoas");
-
-
-        produtoReferencia.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(listaPessoa.size()!=0){
-                    listaPessoa.clear();
-                }
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    listaPessoa.add(postSnapshot.getValue(Pessoa.class));
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-        return totalPorPessoa;
-    }
 
     public void deletaProdutoPessoaFirebase(final String idUser,
                                             final String nomeMesa,
@@ -231,5 +200,7 @@ public class PessoaFirebaseService {
         }
 
         setTotalPessoaFirebase(idUser, nomeMesa);
+        FirebaseService firebaseService = new FirebaseService();
+        firebaseService.setTotalMesaFirebase(idUser, nomeMesa);
     }
 }

@@ -121,5 +121,40 @@ public class FirebaseService {
         return listaMesas;
     }
 
+    public void setTotalMesaFirebase(final String idUser, final String nomeMesa){
+        final List<Pessoa> listaPessoa = new ArrayList<>();
 
+        DatabaseReference pessoaReferencia = firebaseReferencia.child("users")
+                .child(idUser)
+                .child("mesas")
+                .child(nomeMesa)
+                .child("pessoas");
+        final DatabaseReference mesaReferencia = firebaseReferencia.child("users")
+                .child(idUser)
+                .child("mesas")
+                .child(nomeMesa)
+                .child("total");
+        pessoaReferencia.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(listaPessoa.size()!=0){
+                    listaPessoa.clear();
+                }
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    listaPessoa.add(postSnapshot.getValue(Pessoa.class));
+                }
+                double totalMesa = 0;
+                for(Pessoa pessoa: listaPessoa){
+                    totalMesa+=pessoa.getTotal();
+                }
+                mesaReferencia.setValue(totalMesa);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 }

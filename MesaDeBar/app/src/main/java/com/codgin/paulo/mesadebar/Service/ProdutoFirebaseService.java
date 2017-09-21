@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -41,7 +42,7 @@ public class ProdutoFirebaseService {
 
         double totalPorPessoa = calculatorControl.dividePorPessoa(valorProduto, qtd, listaPessoas.size());
         double totalPessoa = 0;
-        double totalMesa = 0;
+
 
         for(Pessoa pessoa: listaPessoas){
             DatabaseReference pessoaReferencia = firebaseReferencia.child("users")
@@ -50,8 +51,8 @@ public class ProdutoFirebaseService {
                                                                     .child(nomeMesa)
                                                                     .child("pessoas")
                                                                     .child(pessoa.getNome())
-                                                                    .child("produtosPessoa")
-                                                                    .child(produto.getNome());
+                                                                    .child("produtosPessoa");
+
             DatabaseReference pessoaTotalReferencia = firebaseReferencia.child("users")
                                                                         .child(idUser)
                                                                         .child("mesas")
@@ -62,31 +63,31 @@ public class ProdutoFirebaseService {
 
 
             totalPessoa = pessoa.getTotal() + totalPorPessoa;
-            pessoa.setTotal(totalPessoa);
-            totalMesa += pessoa.getTotal();
+            HashMap<String, Produto> mapProdutos = new HashMap<String, Produto>();
 
+            if(pessoa.getProdutos()!= null){
+                mapProdutos = pessoa.getProdutos();
+            }
+
+            pessoa.setTotal(totalPessoa);
+            //totalMesa += pessoa.getTotal();
+            //TODO inserir valor no hashMap
             produto.setValor(totalPorPessoa);
-            pessoaReferencia.setValue(produto);
+            mapProdutos.put(produto.getNome(),produto);
+            pessoa.setProdutos(mapProdutos);
+            pessoaReferencia.setValue(mapProdutos);
             pessoaTotalReferencia.setValue(totalPessoa);
 
         }
 
-        for(Pessoa pessoa : listaPessoasComplemento){
-            totalMesa += pessoa.getTotal();
-        }
-
-
         produto.setValor(valorProduto);
         produtoReferencia.setValue(produto);
-        produtoReferencia = firebaseReferencia.child("users")
-                .child(idUser)
-                .child("mesas")
-                .child(nomeMesa)
-                .child("total");
 
-        produtoReferencia.setValue(totalMesa);
+        FirebaseService firebaseService = new FirebaseService();
+        firebaseService.setTotalMesaFirebase(idUser,nomeMesa);
 
     }
+
 
     public List<Produto> getProductMesaFirebase(final String idUser,
                                                 final String nomeMesa,

@@ -136,7 +136,7 @@ public class DialogService {
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                     if(isChecked){
                         pessoaListAux.add(pessoa);
-                        listaPessoa.remove(pessoa);
+                        //listaPessoa.remove(pessoa);
                     }else{
                         pessoaListAux.remove(pessoa);
                     }
