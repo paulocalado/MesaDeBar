@@ -1,5 +1,6 @@
 package com.codgin.paulo.mesadebar.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -90,7 +91,6 @@ public class ProdutoFragment extends Fragment {
 
         pessoaList = pessoaFirebaseService.getListPessoaFirebase(idUser, nomeMesa);
         produtoFirebaseService.getProductMesaFirebase(idUser, nomeMesa,rvListaProdutomesa, getContext(), pessoaList);
-
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,5 +1,6 @@
 package com.codgin.paulo.mesadebar.Service;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +42,11 @@ public class PessoaFirebaseService {
 
     public List<Pessoa> getPessoaFirebase(final String idUser, final String nomeMesa, final RecyclerView rvListaPessoa, final Context context){
         final List<Pessoa> listaPessoa = new ArrayList<>();
+        final ProgressDialog mProgressDialog = new ProgressDialog(context);
+
+        mProgressDialog.setMessage("Work ...");
+        mProgressDialog.show();
+
         DatabaseReference pessoaReferencia = firebaseReferencia.child("users")
                 .child(idUser)
                 .child("mesas")
@@ -62,6 +68,7 @@ public class PessoaFirebaseService {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     listaPessoa.add(postSnapshot.getValue(Pessoa.class));
                 }
+               mProgressDialog.dismiss();
                 final PessoaAdapter adapter = new PessoaAdapter(listaPessoa);
                 LinearLayoutManager llm = new LinearLayoutManager(context);
                 rvListaPessoa.setLayoutManager(llm);

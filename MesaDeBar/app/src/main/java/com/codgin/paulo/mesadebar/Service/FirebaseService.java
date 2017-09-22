@@ -1,10 +1,14 @@
 package com.codgin.paulo.mesadebar.Service;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.UiThread;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.codgin.paulo.mesadebar.HomeMesa;
 import com.codgin.paulo.mesadebar.ListaMesa;
@@ -75,21 +79,29 @@ public class FirebaseService {
     }
 
 
-    public List<Mesa> getMesaFirebase(final String idUser, final RecyclerView rvListaMesa, final Context context){
+    public List<Mesa> getMesaFirebase(final String idUser, final RecyclerView rvListaMesa,  final Context context){
         final List<Mesa> listaMesas = new ArrayList<>();
+        
+        final ProgressDialog mProgressDialog = new ProgressDialog(context);
+        mProgressDialog.setMessage("Work ...");
+        mProgressDialog.show();
 
-        DatabaseReference mesaReferencia = firebaseReferencia.child("users").child(idUser).child("mesas");
-         final Mesa mesaToAdd = new Mesa();
+        final DatabaseReference mesaReferencia = firebaseReferencia.child("users").child(idUser).child("mesas");
+
         mesaReferencia.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+
                     if(listaMesas.size()!=0){
                         listaMesas.clear();
                     }
 
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         listaMesas.add(postSnapshot.getValue(Mesa.class));
+
                     }
+                    mProgressDialog.dismiss();
                 final MesaAdapter adapter = new MesaAdapter(listaMesas);
                 LinearLayoutManager llm = new LinearLayoutManager(context);
                 rvListaMesa.setLayoutManager(llm);

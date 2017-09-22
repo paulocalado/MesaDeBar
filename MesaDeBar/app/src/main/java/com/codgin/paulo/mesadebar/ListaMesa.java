@@ -1,5 +1,6 @@
 package com.codgin.paulo.mesadebar;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -48,7 +49,8 @@ public class ListaMesa extends AppCompatActivity {
          List<Mesa> listaMesa = new ArrayList<>();
         if(listaMesa.size()!=0){
             listaMesa.clear();
-            listaMesa = firebaseService.getMesaFirebase(profile.getId(), rvListaMesa, getApplicationContext());
+            listaMesa = firebaseService.getMesaFirebase(profile.getId(), rvListaMesa, ListaMesa.this);
+
 
         }else {
            // listaMesa = firebaseService.getMesaFirebase(profile.getId());
@@ -73,7 +75,7 @@ public class ListaMesa extends AppCompatActivity {
         super.onResume();
         Toast.makeText(this, "on resume", Toast.LENGTH_SHORT).show();
         listaMesa.clear();
-        firebaseService.getMesaFirebase(id, rvListaMesa, getApplicationContext());
+        firebaseService.getMesaFirebase(id, rvListaMesa, ListaMesa.this);
 
     }
 

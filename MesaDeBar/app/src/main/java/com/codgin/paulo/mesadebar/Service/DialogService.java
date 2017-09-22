@@ -2,6 +2,7 @@ package com.codgin.paulo.mesadebar.Service;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -163,6 +164,19 @@ public class DialogService {
         });
 
         dialog.show();
+    }
+
+    public void progressDialogWait(Context context){
+        final ProgressDialog mProgressDialog = new ProgressDialog(context);
+
+        mProgressDialog.setMessage("Work ...");
+        mProgressDialog.show();
+    }
+
+    public void dismissdialogProgress(Context context){
+        final ProgressDialog mProgressDialog = new ProgressDialog(context);
+
+        mProgressDialog.dismiss();
     }
 
     public void dialogProdutoPessoa(final String nomeMesa, final String idUser, final Context context, final List<Produto> listaProduto){
