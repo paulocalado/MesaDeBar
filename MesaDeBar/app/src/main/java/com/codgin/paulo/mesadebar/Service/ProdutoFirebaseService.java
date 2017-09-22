@@ -5,6 +5,8 @@ import android.os.Vibrator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.codgin.paulo.mesadebar.Control.CalculatorControl;
 import com.codgin.paulo.mesadebar.Model.Pessoa;
@@ -93,7 +95,9 @@ public class ProdutoFirebaseService {
                                                 final String nomeMesa,
                                                 final RecyclerView rvListaProduto,
                                                 final Context context,
-                                                final List<Pessoa> listaPessoas){
+                                                final List<Pessoa> listaPessoas,
+                                                final TextView textEmpty,
+                                                final ImageView imageEmpty){
         final List<Produto> listaProduto = new ArrayList<>();
         DatabaseReference produtoReferencia = firebaseReferencia.child("users")
                                                                 .child(idUser)
@@ -109,6 +113,15 @@ public class ProdutoFirebaseService {
                 }
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     listaProduto.add(postSnapshot.getValue(Produto.class));
+                }
+                if(listaProduto.size()==0){
+                    textEmpty.setVisibility(View.VISIBLE);
+                    imageEmpty.setVisibility(View.VISIBLE);
+                    rvListaProduto.setVisibility(View.GONE);
+                }else{
+                    textEmpty.setVisibility(View.GONE);
+                    imageEmpty.setVisibility(View.GONE);
+                    rvListaProduto.setVisibility(View.VISIBLE);
                 }
                 final ProdutoAdapter adapter = new ProdutoAdapter(listaProduto);
                 LinearLayoutManager llm = new LinearLayoutManager(context);

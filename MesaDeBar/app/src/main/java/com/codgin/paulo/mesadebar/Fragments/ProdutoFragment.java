@@ -1,6 +1,5 @@
 package com.codgin.paulo.mesadebar.Fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,7 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.codgin.paulo.mesadebar.Model.Pessoa;
 import com.codgin.paulo.mesadebar.R;
@@ -84,13 +84,15 @@ public class ProdutoFragment extends Fragment {
 
         FloatingActionButton floatingActionButton = (FloatingActionButton)v.findViewById(R.id.floatingActionButton);
         RecyclerView rvListaProdutomesa = (RecyclerView)v.findViewById(R.id.rvListaProdutoFragment);
+        TextView testeEmpty = (TextView)v.findViewById(R.id.empty_view);
+        ImageView imageEmpty = (ImageView) v.findViewById(R.id.imageView2);
 
         final Bundle bundle = this.getArguments();
         final String idUser = bundle.getString("idUser");
         final String nomeMesa = bundle.getString("nomeMesa");
 
         pessoaList = pessoaFirebaseService.getListPessoaFirebase(idUser, nomeMesa);
-        produtoFirebaseService.getProductMesaFirebase(idUser, nomeMesa,rvListaProdutomesa, getContext(), pessoaList);
+        produtoFirebaseService.getProductMesaFirebase(idUser, nomeMesa,rvListaProdutomesa, getContext(), pessoaList, testeEmpty, imageEmpty);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
