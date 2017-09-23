@@ -78,5 +78,9 @@ public class ListaMesa extends AppCompatActivity {
         firebaseService.getMesaFirebase(id, rvListaMesa, ListaMesa.this);
 
     }
-
+    @Override
+    public void onBackPressed()
+    {
+       finish();
+    }
 }

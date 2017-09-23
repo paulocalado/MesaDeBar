@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.codgin.paulo.mesadebar.Fragments.FinalizarFragment;
 import com.codgin.paulo.mesadebar.Fragments.ListaPessoaFragment;
 import com.codgin.paulo.mesadebar.Fragments.ProdutoFragment;
 
@@ -47,7 +48,15 @@ public class HomeMesa extends AppCompatActivity {
                             .commit();
                     return true;
                 case R.id.navigation_notifications:
-
+                    FinalizarFragment finalizarFragment = new FinalizarFragment();
+                    bundle.putString("idUser", idUser);
+                    bundle.putString("nomeMesa", nomeMesa);
+                    finalizarFragment.setArguments(bundle);
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.content, finalizarFragment, "listaPessoaFragment")
+                            .addToBackStack(null)
+                            .commit();
                     return true;
             }
             return false;
@@ -97,6 +106,13 @@ public class HomeMesa extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        finish();
+
     }
 
 }
