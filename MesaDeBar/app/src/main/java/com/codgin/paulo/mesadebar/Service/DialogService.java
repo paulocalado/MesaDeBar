@@ -10,12 +10,14 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -40,6 +42,7 @@ import java.util.List;
 public class DialogService {
 
     public FirebaseService firebaseService = new FirebaseService();
+
 
     public  void dialogAddMesa(final Context context, final String idUser){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
@@ -186,27 +189,43 @@ public class DialogService {
                                      final String iduser,
                                      final String nomeProduto,
                                      final Context context,
-                                     final List<Pessoa> pessoaList){
-        final  Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.dialog_detalhes_produto);
+                                     final List<Pessoa> pessoaList,
+                                     final Produto produto){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(nomeProduto);
+        builder1.setCancelable(true);
+        final EditText input = new EditText(context);
+        input.setHint(R.string.hint_edit_update_produto);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        builder1.setView(input);
+        builder1.setPositiveButton(
+                R.string.txt_update_produto,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                         ProdutoFirebaseService serviceProdutoFirebase = new ProdutoFirebaseService();
+                        produto.setQuantidade(Integer.parseInt(String.valueOf(input.getText()))+produto.getQuantidade());
+                        serviceProdutoFirebase.updateProdutoMesa(iduser,nomeMesa,nomeProduto,produto.getQuantidade());
+                        dialog.cancel();
+                    }
+                });
 
-       // TextView txtNomeProduto = (TextView)dialog.findViewById(R.id.txtNomeProdutoDetalhe);
+        builder1.setNegativeButton(
+                R.string.txt_deletar_produto,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deletaProdutoPessoa(nomeMesa,iduser,nomeProduto,context,pessoaList);
+                        dialog.dismiss();
+                    }
+                });
 
-        TextView txtUpdateProduto = (TextView)dialog.findViewById(R.id.txtEdicoesProduto);
-        TextView txtDeletaProduto = (TextView)dialog.findViewById(R.id.txtDeletaProduto);
-
-        txtDeletaProduto.setOnClickListener(new View.OnClickListener() {
+        builder1.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
-            public void onClick(View view) {
-                deletaProdutoPessoa(nomeMesa, iduser, nomeProduto, context, pessoaList);
-                dialog.dismiss();
+            public void onCancel(DialogInterface dialog) {
+
             }
         });
-
-       // txtNomeProduto.setText(produto.getNome());
-
-
-        dialog.show();
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
     public void deletaProdutoPessoa(final String nomeMesa,

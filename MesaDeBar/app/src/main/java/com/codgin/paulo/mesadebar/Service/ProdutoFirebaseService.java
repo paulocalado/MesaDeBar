@@ -72,8 +72,6 @@ public class ProdutoFirebaseService {
             }
 
             pessoa.setTotal(totalPessoa);
-            //totalMesa += pessoa.getTotal();
-            //TODO inserir valor no hashMap
             produto.setValor(totalPorPessoa);
             mapProdutos.put(produto.getNome(),produto);
             pessoa.setProdutos(mapProdutos);
@@ -90,6 +88,19 @@ public class ProdutoFirebaseService {
 
     }
 
+    public void updateProdutoMesa(final String idUser, final String nomeMesa, final String nomeProduto,
+                                  final int qtdProduto){
+        DatabaseReference produtoReferencia = firebaseReferencia.child("users")
+                                                                .child(idUser)
+                                                                .child("mesas")
+                                                                .child(nomeMesa)
+                                                                .child("produtosMesa")
+                                                                .child(nomeProduto)
+                                                                .child("quantidade");
+
+        produtoReferencia.setValue(qtdProduto);
+
+    }
 
     public List<Produto> getProductMesaFirebase(final String idUser,
                                                 final String nomeMesa,
@@ -131,7 +142,8 @@ public class ProdutoFirebaseService {
                         new RecyclerItemClickListener(context, rvListaProduto ,new RecyclerItemClickListener.OnItemClickListener(){
                             @Override public void onItemClick(View view, int position) {
                                 // do whatever
-                                dialogService.dialogDetalheProduto(nomeMesa, idUser, listaProduto.get(position).getNome(), context, listaPessoas);
+                                dialogService.dialogDetalheProduto(nomeMesa, idUser, listaProduto.get(position).getNome(), context, listaPessoas,
+                                                                    listaProduto.get(position));
                                 Vibrator v = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
 
                                 v.vibrate(500);

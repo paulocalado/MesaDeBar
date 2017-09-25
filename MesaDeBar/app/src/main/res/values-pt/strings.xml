@@ -17,7 +17,7 @@
     <string name="txt_preco_produto">Preço R$: </string>
     <string name="txt_titulo_fragment_produto">Estes foram os produtos consumidos: </string>
     <string name="txt_quantidade_produto">Quantidade: </string>
-    <string name="txt_deletar_produto">Deletar</string>
+    <string name="txt_deletar_produto">Deletar Produto</string>
     <string name="txt_update_produto">Adicionar</string>
     <string name="hint_edit_update_produto">Adicionar mais: </string>
 </resources>

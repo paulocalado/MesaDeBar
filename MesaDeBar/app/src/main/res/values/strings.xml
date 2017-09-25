@@ -20,9 +20,10 @@
     <string name="txt_preco_produto">Price $: </string>
     <string name="txt_quantidade_produto">Quantity: </string>
     <string name="txt_titulo_fragment_produto">Here are the products consumed: </string>
-    <string name="txt_deletar_produto">Delete</string>
+    <string name="txt_deletar_produto">Delete Product</string>
     <string name="txt_update_produto">Update</string>
     <string name="hint_edit_update_produto">Add more: </string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
