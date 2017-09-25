@@ -166,18 +166,7 @@ public class DialogService {
         dialog.show();
     }
 
-    public void progressDialogWait(Context context){
-        final ProgressDialog mProgressDialog = new ProgressDialog(context);
 
-        mProgressDialog.setMessage("Work ...");
-        mProgressDialog.show();
-    }
-
-    public void dismissdialogProgress(Context context){
-        final ProgressDialog mProgressDialog = new ProgressDialog(context);
-
-        mProgressDialog.dismiss();
-    }
 
     public void dialogProdutoPessoa(final String nomeMesa, final String idUser, final Context context, final List<Produto> listaProduto){
         final Dialog dialog = new Dialog(context);
@@ -193,22 +182,29 @@ public class DialogService {
 
     }
 
-    public void dialogDetalheProduto(Produto produto,
-                                     final String nomeMesa,
-                                     final String idUser,
-                                     Context context){
+    public void dialogDetalheProduto(final String nomeMesa,
+                                     final String iduser,
+                                     final String nomeProduto,
+                                     final Context context,
+                                     final List<Pessoa> pessoaList){
         final  Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_detalhes_produto);
 
-        TextView txtNomeProduto = (TextView)dialog.findViewById(R.id.txtNomeProdutoDetalhe);
-        TextView txtPrecoProduto = (TextView)dialog.findViewById(R.id.txtPrecoDetalhe);
-        TextView txtQuantidadeProduto = (TextView)dialog.findViewById(R.id.txtQuantidadeProdutoDetalhe);
+       // TextView txtNomeProduto = (TextView)dialog.findViewById(R.id.txtNomeProdutoDetalhe);
 
-        TextView txtUpdateProduto = (TextView)dialog.findViewById(R.id.txtAlterarProduto);
+        TextView txtUpdateProduto = (TextView)dialog.findViewById(R.id.txtEdicoesProduto);
+        TextView txtDeletaProduto = (TextView)dialog.findViewById(R.id.txtDeletaProduto);
 
-        txtNomeProduto.setText(produto.getNome());
-        txtPrecoProduto.setText(String.format("%.2f",produto.getValor()));
-        txtQuantidadeProduto.setText(String.valueOf(produto.getQuantidade()));
+        txtDeletaProduto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deletaProdutoPessoa(nomeMesa, iduser, nomeProduto, context, pessoaList);
+                dialog.dismiss();
+            }
+        });
+
+       // txtNomeProduto.setText(produto.getNome());
+
 
         dialog.show();
     }

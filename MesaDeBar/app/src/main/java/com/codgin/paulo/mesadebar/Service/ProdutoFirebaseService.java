@@ -131,7 +131,7 @@ public class ProdutoFirebaseService {
                         new RecyclerItemClickListener(context, rvListaProduto ,new RecyclerItemClickListener.OnItemClickListener(){
                             @Override public void onItemClick(View view, int position) {
                                 // do whatever
-                                dialogService.deletaProdutoPessoa(nomeMesa, idUser, listaProduto.get(position).getNome(), context, listaPessoas);
+                                dialogService.dialogDetalheProduto(nomeMesa, idUser, listaProduto.get(position).getNome(), context, listaPessoas);
                                 Vibrator v = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
 
                                 v.vibrate(500);
