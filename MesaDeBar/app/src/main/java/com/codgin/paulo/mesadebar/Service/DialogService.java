@@ -205,6 +205,7 @@ public class DialogService {
                          ProdutoFirebaseService serviceProdutoFirebase = new ProdutoFirebaseService();
                         produto.setQuantidade(Integer.parseInt(String.valueOf(input.getText()))+produto.getQuantidade());
                         serviceProdutoFirebase.updateProdutoMesa(iduser,nomeMesa,nomeProduto,produto.getQuantidade());
+                        serviceProdutoFirebase.updateProdutoPessoa(iduser, nomeMesa, produto, pessoaList);
                         dialog.cancel();
                     }
                 });

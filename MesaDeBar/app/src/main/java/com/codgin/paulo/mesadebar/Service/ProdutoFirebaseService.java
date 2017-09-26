@@ -30,6 +30,7 @@ import java.util.List;
 public class ProdutoFirebaseService {
     private DatabaseReference firebaseReferencia = FirebaseDatabase.getInstance().getReference();
     public DialogService dialogService = new DialogService();
+    CalculatorControl calculatorControl = new CalculatorControl();
 
     public void addProduto(String nomeProduto, double valorProduto, String idUser, String nomeMesa, int qtd, List<Pessoa> listaPessoas, List<Pessoa> listaPessoasComplemento){
         DatabaseReference produtoReferencia = firebaseReferencia.child("users")
@@ -40,7 +41,7 @@ public class ProdutoFirebaseService {
                                                 .child(nomeProduto);
 
         Produto produto = new Produto(nomeProduto, valorProduto, qtd);
-        CalculatorControl calculatorControl = new CalculatorControl();
+
 
         double totalPorPessoa = calculatorControl.dividePorPessoa(valorProduto, qtd, listaPessoas.size());
         double totalPessoa = 0;
@@ -86,6 +87,73 @@ public class ProdutoFirebaseService {
         FirebaseService firebaseService = new FirebaseService();
         firebaseService.setTotalMesaFirebase(idUser,nomeMesa);
 
+    }
+    public void updateProdutoPessoa(final String idUser, final String nomeMesa,
+                                    final Produto produto, List<Pessoa> listaPessoa){
+
+        int qtdPessoasComProduto =0;
+        for(Pessoa pessoa: listaPessoa){
+            HashMap<String, Produto> hashMap = new HashMap<>();
+            hashMap = pessoa.getProdutos();
+            if(hashMap!=null){
+                for(String key : hashMap.keySet()){
+                    if(key.equals(produto.getNome())){
+                        qtdPessoasComProduto += 1;
+                    }
+                }
+            }
+        }
+
+        double totalPorPessoa = calculatorControl.dividePorPessoa(produto.getValor(), produto.getQuantidade(), qtdPessoasComProduto);
+
+        //TODO algo errado por aqui na matematica de total do produto
+        for(Pessoa pessoa: listaPessoa){
+            HashMap<String, Produto> map = new HashMap<>();
+            map = pessoa.getProdutos();
+            if(map != null){
+                for(String key: map.keySet()){
+                    double totalPessoa = 0;
+                    if(key.equals(produto.getNome())){
+                        DatabaseReference pessoaReferencia = firebaseReferencia.child("users")
+                            .child(idUser)
+                            .child("mesas")
+                            .child(nomeMesa)
+                            .child("pessoas")
+                            .child(pessoa.getNome())
+                            .child("produtosPessoa");
+
+                        DatabaseReference pessoaTotalReferencia = firebaseReferencia.child("users")
+                            .child(idUser)
+                            .child("mesas")
+                            .child(nomeMesa)
+                            .child("pessoas")
+                            .child(pessoa.getNome())
+                            .child("total");
+
+
+                        totalPessoa = pessoa.getTotal() + totalPorPessoa;
+                        HashMap<String, Produto> mapProdutos = new HashMap<String, Produto>();
+
+                        if(pessoa.getProdutos()!= null){
+                             mapProdutos = pessoa.getProdutos();
+                        }
+                        Produto produtoAux = map.get(key);
+                        pessoa.setTotal(totalPessoa);
+                        produto.setValor(totalPorPessoa+produtoAux.getValor());
+                        mapProdutos.put(produto.getNome(),produto);
+                        pessoa.setProdutos(mapProdutos);
+                        pessoaReferencia.setValue(mapProdutos);
+                        pessoaTotalReferencia.setValue(totalPessoa);
+                }
+              }
+            }
+
+
+
+        }
+
+        FirebaseService firebaseService = new FirebaseService();
+        firebaseService.setTotalMesaFirebase(idUser,nomeMesa);
     }
 
     public void updateProdutoMesa(final String idUser, final String nomeMesa, final String nomeProduto,
