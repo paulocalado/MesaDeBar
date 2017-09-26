@@ -131,15 +131,16 @@ public class ProdutoFirebaseService {
                             .child("total");
 
 
-                        totalPessoa = pessoa.getTotal() + totalPorPessoa;
+
                         HashMap<String, Produto> mapProdutos = new HashMap<String, Produto>();
 
                         if(pessoa.getProdutos()!= null){
                              mapProdutos = pessoa.getProdutos();
                         }
                         Produto produtoAux = map.get(key);
+                        totalPessoa = pessoa.getTotal() + (totalPorPessoa-produtoAux.getValor());
                         pessoa.setTotal(totalPessoa);
-                        produto.setValor(totalPorPessoa+produtoAux.getValor());
+                        produto.setValor(totalPorPessoa);
                         mapProdutos.put(produto.getNome(),produto);
                         pessoa.setProdutos(mapProdutos);
                         pessoaReferencia.setValue(mapProdutos);
