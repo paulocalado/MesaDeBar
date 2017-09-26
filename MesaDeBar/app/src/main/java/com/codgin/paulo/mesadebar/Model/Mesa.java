@@ -10,15 +10,17 @@ public class Mesa {
     String nome;
     int quantidadePessoas;
     float total;
+    float totalComGorjeta;
     //List<Pessoa> pessoas;
     public Mesa(){
 
     }
 
-    public Mesa(String nome, int quantidadePessoas, float total) {
+    public Mesa(String nome, int quantidadePessoas, float total, float totalComGorjeta) {
         this.nome = nome;
         this.quantidadePessoas = quantidadePessoas;
         this.total = total;
+        this.totalComGorjeta = totalComGorjeta;
     }
 
     public float getTotal() {
@@ -43,5 +45,13 @@ public class Mesa {
 
     public void setQuantidadePessoas(int quantidadePessoas) {
         this.quantidadePessoas = quantidadePessoas;
+    }
+
+    public float getTotalComGorjeta() {
+        return totalComGorjeta;
+    }
+
+    public void setTotalComGorjeta(float totalComGorjeta) {
+        this.totalComGorjeta = totalComGorjeta;
     }
 }

@@ -57,7 +57,7 @@ public class DialogService {
                     public void onClick(DialogInterface dialog, int id) {
                         String nomeMesa = input.getText().toString();
                         Toast.makeText(context, nomeMesa, Toast.LENGTH_LONG).show();
-                        Mesa mesa = new Mesa(nomeMesa, 0,0);
+                        Mesa mesa = new Mesa(nomeMesa, 0,0,0);
                         firebaseService.criarMesaFirebase(idUser, mesa);
                         dialog.cancel();
                     }
@@ -183,6 +183,44 @@ public class DialogService {
 
         dialog.show();
 
+    }
+
+    public void dialogSetGorjeta(Context context, final String idUser,
+                                 final String nomeMesa, final TextView textTotalMesa,
+                                 final TextView textTotalDivididoIgualmente){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage(R.string.titulo_dialog_addGorjeta);
+        builder1.setCancelable(true);
+        final EditText input = new EditText(context);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        builder1.setView(input);
+        builder1.setPositiveButton(
+                R.string.positive_button,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String nomePessoa = input.getText().toString();
+                        Pessoa pessoa = new Pessoa(nomePessoa,0);
+                        firebaseService.addPessoaMesaFirebase(idUser, nomeMesa, pessoa);
+                        dialog.cancel();
+                    }
+                });
+
+        builder1.setNegativeButton(
+                R.string.negative_button,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        builder1.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+
+            }
+        });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
     public void dialogDetalheProduto(final String nomeMesa,

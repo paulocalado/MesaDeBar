@@ -23,7 +23,10 @@
     <string name="txt_deletar_produto">Delete Product</string>
     <string name="txt_update_produto">Update</string>
     <string name="hint_edit_update_produto">Add more: </string>
-
+    <string name="switch_add_gorjeta">Add Tip! </string>
+    <string name="switch_couvert">Add Extra Charges? </string>
+    <string name="txt_confirmar_finalizar">Please, be sure that you want to finish this table</string>
+    <string name="titulo_dialog_addGorjeta">Tell us the % of the tip</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
