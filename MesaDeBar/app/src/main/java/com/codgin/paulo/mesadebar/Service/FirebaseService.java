@@ -9,8 +9,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Switch;
 import android.widget.TextView;
 
+import com.codgin.paulo.mesadebar.Control.CalculatorControl;
 import com.codgin.paulo.mesadebar.HomeMesa;
 import com.codgin.paulo.mesadebar.ListaMesa;
 import com.codgin.paulo.mesadebar.MesaAdapter;
@@ -36,6 +38,7 @@ import java.util.List;
 public class FirebaseService {
     private DatabaseReference firebaseReferencia = FirebaseDatabase.getInstance().getReference();
     Mesa mesa = new Mesa();
+    public CalculatorControl calculatorControl = new CalculatorControl();
 
     public  void criarMesaFirebase(String id, Mesa mesa){
         DatabaseReference usuarioReferencia = firebaseReferencia.child("users").child(id).child("mesas").child(mesa.getNome());
@@ -134,8 +137,72 @@ public class FirebaseService {
         });
         return listaMesas;
     }
+    public void verificaMesaPossuiTip(final String idUser, final String nomeMesa, final Switch switchTip){
+        DatabaseReference mesaReferencia = firebaseReferencia.child("users")
+                .child(idUser)
+                .child("mesas")
+                .child(nomeMesa)
+                .child("hasTip");
+
+        mesaReferencia.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean hasTip = (Boolean)dataSnapshot.getValue();
+                if(hasTip){
+                    switchTip.setChecked(true);
+                }else{
+                    switchTip.setChecked(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+    public void addGorjetaMesaFirebase(final String idUser, final String nomeMesa,
+                                       final TextView txtTotal, final int gorjeta){
+
+
+        final DatabaseReference mesaReferencia = firebaseReferencia.child("users")
+                .child(idUser)
+                .child("mesas")
+                .child(nomeMesa)
+                .child("total");
+        final DatabaseReference gorjetaReferencia = firebaseReferencia.child("users")
+                .child(idUser)
+                .child("mesas")
+                .child(nomeMesa)
+                .child("totalComGorjeta");
+        final DatabaseReference hasTipReferencia = firebaseReferencia.child("users")
+                .child(idUser)
+                .child("mesas")
+                .child(nomeMesa)
+                .child("hasTip");
+
+        mesaReferencia.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String stringTotal = String.valueOf(dataSnapshot.getValue());
+                double total = Double.parseDouble(stringTotal);
+                double valorGorjeta = calculatorControl.addGorjeta(total,gorjeta);
+                gorjetaReferencia.setValue(total+valorGorjeta);
+                hasTipReferencia.setValue(true);
+                txtTotal.setText(txtTotal.getContext().getResources().getString(R.string.total_mesa)+String.format("%.2f",total+valorGorjeta));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
     public void getTotalMesa(boolean gorjeta, final String idUser, final String nomeMesa, final TextView txtTotal){
-        if(gorjeta==true){
+        if(gorjeta==false){
             DatabaseReference mesaReferencia = firebaseReferencia.child("users")
                     .child(idUser)
                     .child("mesas")
@@ -155,7 +222,7 @@ public class FirebaseService {
                 }
             });
 
-        }else if(gorjeta==false){
+        }else if(gorjeta==true){
             DatabaseReference mesaReferencia = firebaseReferencia.child("users")
                     .child(idUser)
                     .child("mesas")

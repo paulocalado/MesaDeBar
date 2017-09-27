@@ -11,16 +11,18 @@ public class Mesa {
     int quantidadePessoas;
     float total;
     float totalComGorjeta;
+    boolean hasTip;
     //List<Pessoa> pessoas;
     public Mesa(){
 
     }
 
-    public Mesa(String nome, int quantidadePessoas, float total, float totalComGorjeta) {
+    public Mesa(String nome, int quantidadePessoas, float total, float totalComGorjeta, boolean hasTip) {
         this.nome = nome;
         this.quantidadePessoas = quantidadePessoas;
         this.total = total;
         this.totalComGorjeta = totalComGorjeta;
+        this.hasTip = hasTip;
     }
 
     public float getTotal() {
@@ -53,5 +55,13 @@ public class Mesa {
 
     public void setTotalComGorjeta(float totalComGorjeta) {
         this.totalComGorjeta = totalComGorjeta;
+    }
+
+    public boolean isHasTip() {
+        return hasTip;
+    }
+
+    public void setHasTip(boolean hasTip) {
+        this.hasTip = hasTip;
     }
 }

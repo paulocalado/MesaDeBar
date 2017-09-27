@@ -24,6 +24,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Service;
+
+import com.codgin.paulo.mesadebar.Control.CalculatorControl;
 import com.codgin.paulo.mesadebar.HomeMesa;
 import com.codgin.paulo.mesadebar.Model.Mesa;
 import com.codgin.paulo.mesadebar.Model.Pessoa;
@@ -42,7 +44,7 @@ import java.util.List;
 public class DialogService {
 
     public FirebaseService firebaseService = new FirebaseService();
-
+    public CalculatorControl calculatorControl = new CalculatorControl();
 
     public  void dialogAddMesa(final Context context, final String idUser){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
@@ -57,7 +59,7 @@ public class DialogService {
                     public void onClick(DialogInterface dialog, int id) {
                         String nomeMesa = input.getText().toString();
                         Toast.makeText(context, nomeMesa, Toast.LENGTH_LONG).show();
-                        Mesa mesa = new Mesa(nomeMesa, 0,0,0);
+                        Mesa mesa = new Mesa(nomeMesa, 0,0,0, false);
                         firebaseService.criarMesaFirebase(idUser, mesa);
                         dialog.cancel();
                     }
@@ -186,8 +188,8 @@ public class DialogService {
     }
 
     public void dialogSetGorjeta(Context context, final String idUser,
-                                 final String nomeMesa, final TextView textTotalMesa,
-                                 final TextView textTotalDivididoIgualmente){
+                                 final String nomeMesa, final TextView textTotalMesa
+                                 ){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
         builder1.setMessage(R.string.titulo_dialog_addGorjeta);
         builder1.setCancelable(true);
@@ -198,9 +200,10 @@ public class DialogService {
                 R.string.positive_button,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        String nomePessoa = input.getText().toString();
+                        firebaseService.addGorjetaMesaFirebase(idUser,nomeMesa,textTotalMesa,Integer.parseInt(String.valueOf(input.getText())));
+                       /* String nomePessoa = input.getText().toString();
                         Pessoa pessoa = new Pessoa(nomePessoa,0);
-                        firebaseService.addPessoaMesaFirebase(idUser, nomeMesa, pessoa);
+                        firebaseService.addPessoaMesaFirebase(idUser, nomeMesa, pessoa);*/
                         dialog.cancel();
                     }
                 });

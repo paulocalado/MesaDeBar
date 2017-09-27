@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codgin.paulo.mesadebar.R;
 import com.codgin.paulo.mesadebar.Service.DialogService;
@@ -84,19 +85,37 @@ public class ListaPessoaFragment extends Fragment {
 
 
         //initializeComponents
+        final DialogService dialogService = new DialogService();
         final TextView txtTotalMesaFragment = (TextView)v.findViewById(R.id.txtTotalMesaFragment);
-        Switch switchAddGorjeta = (Switch)v.findViewById(R.id.switchAddGorjeta);
+        final Switch switchAddGorjeta = (Switch)v.findViewById(R.id.switchAddGorjeta);
         FloatingActionButton btnAdicionarPessoa = (FloatingActionButton )v.findViewById(R.id.btnAdicionarPessoa);
         RecyclerView rvListaPessoa = (RecyclerView)v.findViewById(R.id.rvListaPessoa);
-        pessoaFirebaseService.getPessoaFirebase(idUser,nomeMesa,rvListaPessoa, getContext());
 
-        switchAddGorjeta.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        pessoaFirebaseService.getPessoaFirebase(idUser,nomeMesa,rvListaPessoa, getContext());
+        mesaFirebaseService.verificaMesaPossuiTip(idUser,nomeMesa,switchAddGorjeta);
+        if(!switchAddGorjeta.isChecked()){
+
+            mesaFirebaseService.getTotalMesa(false, idUser,nomeMesa, txtTotalMesaFragment);
+        }
+
+       /* switchAddGorjeta.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
+                    dialogService.dialogSetGorjeta(getContext(),idUser,nomeMesa,txtTotalMesaFragment);
                     mesaFirebaseService.getTotalMesa(b,idUser,nomeMesa,txtTotalMesaFragment);
 
-            }});
+            }});*/
+        switchAddGorjeta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(switchAddGorjeta.isChecked()){
+                    dialogService.dialogSetGorjeta(getContext(),idUser,nomeMesa,txtTotalMesaFragment);
+                }else{
+                    Toast.makeText(getContext(), "FALSO", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        });
 
         btnAdicionarPessoa.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -85,7 +85,7 @@ public class FinalizarFragment extends Fragment {
            @Override
            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                if(b==true){
-                   dialogService.dialogSetGorjeta(getContext(), idUser,nomeMesa,txtTotalMesa,txtTotalDividido);
+                   dialogService.dialogSetGorjeta(getContext(), idUser,nomeMesa,txtTotalMesa);
                }
            }
        });
