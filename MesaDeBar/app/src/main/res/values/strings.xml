@@ -27,6 +27,7 @@
     <string name="switch_couvert">Add Extra Charges? </string>
     <string name="txt_confirmar_finalizar">Please, be sure that you want to finish this table</string>
     <string name="titulo_dialog_addGorjeta">Tell us the % of the tip</string>
+    <string name="total_mesa">Total: $</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

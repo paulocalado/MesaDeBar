@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.codgin.paulo.mesadebar.HomeMesa;
 import com.codgin.paulo.mesadebar.ListaMesa;
@@ -17,6 +18,7 @@ import com.codgin.paulo.mesadebar.Model.Mesa;
 import com.codgin.paulo.mesadebar.Model.Pessoa;
 import com.codgin.paulo.mesadebar.Model.User;
 import com.codgin.paulo.mesadebar.PessoaAdapter;
+import com.codgin.paulo.mesadebar.R;
 import com.codgin.paulo.mesadebar.RecyclerItemClickListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -131,6 +133,53 @@ public class FirebaseService {
             }
         });
         return listaMesas;
+    }
+    public void getTotalMesa(boolean gorjeta, final String idUser, final String nomeMesa, final TextView txtTotal){
+        if(gorjeta==true){
+            DatabaseReference mesaReferencia = firebaseReferencia.child("users")
+                    .child(idUser)
+                    .child("mesas")
+                    .child(nomeMesa)
+                    .child("total");
+            mesaReferencia.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String stringTotal = String.valueOf(dataSnapshot.getValue());
+                    double total = Double.parseDouble(stringTotal);
+                    txtTotal.setText(txtTotal.getContext().getResources().getString(R.string.total_mesa)+String.format("%.2f",total));
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }else if(gorjeta==false){
+            DatabaseReference mesaReferencia = firebaseReferencia.child("users")
+                    .child(idUser)
+                    .child("mesas")
+                    .child(nomeMesa)
+                    .child("totalComGorjeta");
+            mesaReferencia.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String stringTotal = String.valueOf(dataSnapshot.getValue());
+                    double total = Double.parseDouble(stringTotal);
+                    txtTotal.setText(txtTotal.getContext().getResources().getString(R.string.total_mesa)+String.format("%.2f",total));
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+
+    }
+    public void setTotalComGorjetaMesaFirebase(){
+
     }
 
     public void setTotalMesaFirebase(final String idUser, final String nomeMesa){

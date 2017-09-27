@@ -9,16 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
 
-import com.codgin.paulo.mesadebar.Model.Pessoa;
 import com.codgin.paulo.mesadebar.R;
 import com.codgin.paulo.mesadebar.Service.DialogService;
 import com.codgin.paulo.mesadebar.Service.FirebaseService;
 import com.codgin.paulo.mesadebar.Service.PessoaFirebaseService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,8 +38,8 @@ public class ListaPessoaFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-
-    PessoaFirebaseService firebaseService = new PessoaFirebaseService();
+    FirebaseService mesaFirebaseService = new FirebaseService();
+    PessoaFirebaseService pessoaFirebaseService = new PessoaFirebaseService();
     public ListaPessoaFragment() {
         // Required empty public constructor
     }
@@ -86,9 +84,19 @@ public class ListaPessoaFragment extends Fragment {
 
 
         //initializeComponents
+        final TextView txtTotalMesaFragment = (TextView)v.findViewById(R.id.txtTotalMesaFragment);
+        Switch switchAddGorjeta = (Switch)v.findViewById(R.id.switchAddGorjeta);
         FloatingActionButton btnAdicionarPessoa = (FloatingActionButton )v.findViewById(R.id.btnAdicionarPessoa);
         RecyclerView rvListaPessoa = (RecyclerView)v.findViewById(R.id.rvListaPessoa);
-        firebaseService.getPessoaFirebase(idUser,nomeMesa,rvListaPessoa, getContext());
+        pessoaFirebaseService.getPessoaFirebase(idUser,nomeMesa,rvListaPessoa, getContext());
+
+        switchAddGorjeta.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                    mesaFirebaseService.getTotalMesa(b,idUser,nomeMesa,txtTotalMesaFragment);
+
+            }});
 
         btnAdicionarPessoa.setOnClickListener(new View.OnClickListener() {
             @Override

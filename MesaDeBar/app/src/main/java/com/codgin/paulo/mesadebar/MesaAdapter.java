@@ -35,7 +35,7 @@ public class MesaAdapter extends RecyclerView.Adapter<MesaAdapter.MesaViewHolder
     public void onBindViewHolder(MesaViewHolder holder, int position) {
         holder.txtNomeMesa.setText(String.valueOf(listaMesas.get(position).getNome()));
         holder.txtQuantidadePessoaMesa.setText(String.valueOf(listaMesas.get(position).getQuantidadePessoas())+" Pessoas");
-        holder.txtTotalMesa.setText("Total da mesa: R$"+String.format("%.2f", listaMesas.get(position).getTotal()));
+        holder.txtTotalMesa.setText(holder.txtTotalMesa.getContext().getResources().getString(R.string.total_mesa)+String.format("%.2f", listaMesas.get(position).getTotal()));
     }
 
     @Override

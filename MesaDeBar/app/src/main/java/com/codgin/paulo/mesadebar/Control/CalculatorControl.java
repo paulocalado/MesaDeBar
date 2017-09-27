@@ -13,4 +13,12 @@ public class CalculatorControl {
 
         return resultado;
     }
+
+    public double addGorjeta(double total, int gorjeta){
+        double resultado = 0;
+
+        resultado = (total*gorjeta)/100;
+
+        return resultado;
+    }
 }

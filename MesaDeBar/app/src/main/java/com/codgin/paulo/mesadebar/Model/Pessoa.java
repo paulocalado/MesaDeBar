@@ -1,7 +1,6 @@
 package com.codgin.paulo.mesadebar.Model;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Paulo on 21/07/2017.
@@ -11,6 +10,7 @@ public class Pessoa {
     String nome;
     double total;
     HashMap<String, Produto> produtosPessoa;
+    double totalSemGorjeta;
 
     public  Pessoa(){
 
@@ -19,12 +19,14 @@ public class Pessoa {
     public Pessoa(String nome, float total) {
         this.nome = nome;
         this.total = total;
+
     }
 
     public Pessoa(String nome, float total, HashMap<String, Produto> produtosPessoa) {
         this.nome = nome;
         this.total = total;
         this.produtosPessoa = produtosPessoa;
+
     }
 
     public String getNome() {
@@ -49,5 +51,13 @@ public class Pessoa {
 
     public void setProdutos(HashMap<String, Produto> produtosPessoa) {
         this.produtosPessoa = produtosPessoa;
+    }
+
+    public double getTotalSemGorjeta() {
+        return totalSemGorjeta;
+    }
+
+    public void setTotalSemGorjeta(double totalSemGorjeta) {
+        this.totalSemGorjeta = totalSemGorjeta;
     }
 }
