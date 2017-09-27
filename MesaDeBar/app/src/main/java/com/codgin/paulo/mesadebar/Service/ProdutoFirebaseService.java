@@ -32,7 +32,9 @@ public class ProdutoFirebaseService {
     public DialogService dialogService = new DialogService();
     CalculatorControl calculatorControl = new CalculatorControl();
 
-    public void addProduto(String nomeProduto, double valorProduto, String idUser, String nomeMesa, int qtd, List<Pessoa> listaPessoas, List<Pessoa> listaPessoasComplemento){
+    public void addProduto(String nomeProduto, double valorProduto,
+                           String idUser, String nomeMesa, int qtd, List<Pessoa> listaPessoas,
+                           List<Pessoa> listaPessoasComplemento){
         DatabaseReference produtoReferencia = firebaseReferencia.child("users")
                                                 .child(idUser)
                                                 .child("mesas")
@@ -63,21 +65,7 @@ public class ProdutoFirebaseService {
                                                                         .child("pessoas")
                                                                         .child(pessoa.getNome())
                                                                         .child("total");
-
-
-            totalPessoa = pessoa.getTotal() + totalPorPessoa;
-            HashMap<String, Produto> mapProdutos = new HashMap<String, Produto>();
-
-            if(pessoa.getProdutos()!= null){
-                mapProdutos = pessoa.getProdutos();
-            }
-
-            pessoa.setTotal(totalPessoa);
-            produto.setValor(totalPorPessoa);
-            mapProdutos.put(produto.getNome(),produto);
-            pessoa.setProdutos(mapProdutos);
-            pessoaReferencia.setValue(mapProdutos);
-            pessoaTotalReferencia.setValue(totalPessoa);
+            calculosAddProduto(pessoaReferencia, pessoaTotalReferencia, pessoa, totalPorPessoa, produto, totalPessoa);
 
         }
 
@@ -88,6 +76,29 @@ public class ProdutoFirebaseService {
         firebaseService.setTotalMesaFirebase(idUser,nomeMesa);
 
     }
+
+
+    public void calculosAddProduto(DatabaseReference pessoaReferencia, DatabaseReference pessoaTotalReferencia,
+                                   Pessoa pessoa, double totalPorPessoa, Produto produto, double totalPessoa ){
+
+
+        totalPessoa = pessoa.getTotal() + totalPorPessoa;
+        HashMap<String, Produto> mapProdutos = new HashMap<String, Produto>();
+
+        if(pessoa.getProdutos()!= null){
+            mapProdutos = pessoa.getProdutos();
+        }
+
+        pessoa.setTotal(totalPessoa);
+        produto.setValor(totalPorPessoa);
+        mapProdutos.put(produto.getNome(),produto);
+        pessoa.setProdutos(mapProdutos);
+        pessoaReferencia.setValue(mapProdutos);
+        pessoaTotalReferencia.setValue(totalPessoa);
+
+    }
+
+
     public void updateProdutoPessoa(final String idUser, final String nomeMesa,
                                     final Produto produto, List<Pessoa> listaPessoa){
 
@@ -106,7 +117,7 @@ public class ProdutoFirebaseService {
 
         double totalPorPessoa = calculatorControl.dividePorPessoa(produto.getValor(), produto.getQuantidade(), qtdPessoasComProduto);
 
-        //TODO algo errado por aqui na matematica de total do produto
+
         for(Pessoa pessoa: listaPessoa){
             HashMap<String, Produto> map = new HashMap<>();
             map = pessoa.getProdutos();

@@ -180,7 +180,11 @@ public class FirebaseService {
                 .child("mesas")
                 .child(nomeMesa)
                 .child("hasTip");
-
+        final DatabaseReference valorGorjetaReferencia = firebaseReferencia.child("users")
+                .child(idUser)
+                .child("mesas")
+                .child(nomeMesa)
+                .child("valorGorjeta");
         mesaReferencia.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -188,6 +192,7 @@ public class FirebaseService {
                 double total = Double.parseDouble(stringTotal);
                 double valorGorjeta = calculatorControl.addGorjeta(total,gorjeta);
                 gorjetaReferencia.setValue(total+valorGorjeta);
+                valorGorjetaReferencia.setValue(valorGorjeta);
                 hasTipReferencia.setValue(true);
                 txtTotal.setText(txtTotal.getContext().getResources().getString(R.string.total_mesa)+String.format("%.2f",total+valorGorjeta));
             }
