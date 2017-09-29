@@ -94,17 +94,19 @@ public class ListaPessoaFragment extends Fragment {
         pessoaFirebaseService.getPessoaFirebase(idUser,nomeMesa,rvListaPessoa, getContext());
         mesaFirebaseService.verificaMesaPossuiTip(idUser,nomeMesa,switchAddGorjeta);
         if(!switchAddGorjeta.isChecked()){
-
             mesaFirebaseService.getTotalMesa(false, idUser,nomeMesa, txtTotalMesaFragment);
         }
 
-       /* switchAddGorjeta.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+       switchAddGorjeta.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    dialogService.dialogSetGorjeta(getContext(),idUser,nomeMesa,txtTotalMesaFragment);
-                    mesaFirebaseService.getTotalMesa(b,idUser,nomeMesa,txtTotalMesaFragment);
+                    if(b){
 
-            }});*/
+                        mesaFirebaseService.getTotalMesa(b,idUser,nomeMesa,txtTotalMesaFragment);
+                    }
+
+            }});
+
         switchAddGorjeta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -41,13 +41,17 @@ public class ProdutoFirebaseService {
                                                 .child(nomeMesa)
                                                 .child("produtosMesa")
                                                 .child(nomeProduto);
+        DatabaseReference hasTipReferencia = firebaseReferencia.child("users")
+                                                                .child(idUser)
+                                                                .child("mesas")
+                                                                .child(nomeMesa)
+                                                                .child("hasTip");
 
         Produto produto = new Produto(nomeProduto, valorProduto, qtd);
 
 
         double totalPorPessoa = calculatorControl.dividePorPessoa(valorProduto, qtd, listaPessoas.size());
         double totalPessoa = 0;
-
 
         for(Pessoa pessoa: listaPessoas){
             DatabaseReference pessoaReferencia = firebaseReferencia.child("users")

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codgin.paulo.mesadebar.Model.Mesa;
+import com.codgin.paulo.mesadebar.Model.ModelGetMesa;
 import com.codgin.paulo.mesadebar.Service.DialogService;
 import com.codgin.paulo.mesadebar.Service.FirebaseService;
 import com.facebook.Profile;
@@ -32,6 +33,7 @@ public class ListaMesa extends AppCompatActivity {
     Button btnCriarMesaActivity;
     FirebaseService firebaseService = new FirebaseService();
     List<Mesa> listaMesa = new ArrayList<>();
+    ModelGetMesa modelGetMesa = null;
     String id;
     RecyclerView rvListaMesa;
     @Override
@@ -49,7 +51,8 @@ public class ListaMesa extends AppCompatActivity {
          List<Mesa> listaMesa = new ArrayList<>();
         if(listaMesa.size()!=0){
             listaMesa.clear();
-            listaMesa = firebaseService.getMesaFirebase(profile.getId(), rvListaMesa, ListaMesa.this);
+            modelGetMesa = new ModelGetMesa(profile.getId(), ListaMesa.this, rvListaMesa);
+            firebaseService.getMesaFirebase(modelGetMesa);
 
 
         }else {
@@ -75,7 +78,9 @@ public class ListaMesa extends AppCompatActivity {
         super.onResume();
         Toast.makeText(this, "on resume", Toast.LENGTH_SHORT).show();
         listaMesa.clear();
-        firebaseService.getMesaFirebase(id, rvListaMesa, ListaMesa.this);
+
+        modelGetMesa = new ModelGetMesa(id, ListaMesa.this, rvListaMesa);
+        firebaseService.getMesaFirebase(modelGetMesa);
 
     }
     @Override

@@ -21,4 +21,12 @@ public class CalculatorControl {
 
         return resultado;
     }
+
+    public double dividirGorjetaPessoas(double valorGorjeta, int qtdpessoas){
+        double resultado = 0;
+
+        resultado = valorGorjeta/qtdpessoas;
+
+        return resultado;
+    }
 }

@@ -151,9 +151,6 @@ public class PessoaFirebaseService {
             }
         });
 
-
-
-
     }
 
     public  List<Pessoa> getListPessoaFirebase(final String idUser, final  String nomeMesa){
@@ -184,6 +181,38 @@ public class PessoaFirebaseService {
 
 
         return listaPessoa;
+    }
+
+    public void setTotalPessoaComGorjeta(final String idUser,
+                                         final String nomeMesa,
+                                         final List<Pessoa> listaPessoa,
+                                         final double valorGorjetaParaAdd){
+        for(Pessoa pessoa : listaPessoa){
+            final DatabaseReference totalPessoaReferencia = firebaseReferencia.child("users")
+                    .child(idUser)
+                    .child("mesas")
+                    .child(nomeMesa)
+                    .child("pessoas")
+                    .child(pessoa.getNome())
+                    .child("total");
+
+            totalPessoaReferencia.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String stringTotal = String.valueOf(dataSnapshot.getValue());
+                    double total = Double.parseDouble(stringTotal);
+
+                    totalPessoaReferencia.setValue(total+valorGorjetaParaAdd);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+
     }
 
 
