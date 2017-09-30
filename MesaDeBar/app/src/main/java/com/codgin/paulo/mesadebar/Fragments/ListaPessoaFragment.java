@@ -14,6 +14,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codgin.paulo.mesadebar.Model.ModelGetMesa;
 import com.codgin.paulo.mesadebar.R;
 import com.codgin.paulo.mesadebar.Service.DialogService;
 import com.codgin.paulo.mesadebar.Service.FirebaseService;
@@ -91,8 +92,9 @@ public class ListaPessoaFragment extends Fragment {
         FloatingActionButton btnAdicionarPessoa = (FloatingActionButton )v.findViewById(R.id.btnAdicionarPessoa);
         RecyclerView rvListaPessoa = (RecyclerView)v.findViewById(R.id.rvListaPessoa);
 
+        ModelGetMesa modelGetMesaVerificaTip = new ModelGetMesa(idUser, nomeMesa, switchAddGorjeta);
         pessoaFirebaseService.getPessoaFirebase(idUser,nomeMesa,rvListaPessoa, getContext());
-        mesaFirebaseService.verificaMesaPossuiTip(idUser,nomeMesa,switchAddGorjeta);
+        mesaFirebaseService.verificaMesaPossuiTip(modelGetMesaVerificaTip);
         if(!switchAddGorjeta.isChecked()){
             mesaFirebaseService.getTotalMesa(false, idUser,nomeMesa, txtTotalMesaFragment);
         }

@@ -17,6 +17,7 @@ import com.codgin.paulo.mesadebar.Control.CalculatorControl;
 import com.codgin.paulo.mesadebar.Control.ControlRecuperaMesaFirebase;
 import com.codgin.paulo.mesadebar.Control.DialogMesaControl;
 import com.codgin.paulo.mesadebar.Helper.MesaReferenciaHelper;
+import com.codgin.paulo.mesadebar.Helper.VerificacoesMesaHelper;
 import com.codgin.paulo.mesadebar.HomeMesa;
 import com.codgin.paulo.mesadebar.ListaMesa;
 import com.codgin.paulo.mesadebar.MesaAdapter;
@@ -94,73 +95,44 @@ public class FirebaseService {
         DialogMesaControl.loadingMesa(modelGetMesa.getContext());
 
         final DatabaseReference mesaReferencia = firebaseReferencia.child("users")
-                .child(modelGetMesa.getIdUser()).child("mesas");
-        
+                .child(modelGetMesa.getIdUser())
+                .child("mesas");
+
         MesaReferenciaHelper.helperGetMesaFirebase(mesaReferencia,modelGetMesa);
 
     }
 
 
-    public void verificaMesaPossuiTip(final String idUser, final String nomeMesa, final Switch switchTip){
+    public void verificaMesaPossuiTip(ModelGetMesa modelGetMesaVerificaTip){
         DatabaseReference mesaReferencia = firebaseReferencia.child("users")
-                .child(idUser)
+                .child(modelGetMesaVerificaTip.getIdUser())
                 .child("mesas")
-                .child(nomeMesa)
+                .child(modelGetMesaVerificaTip.getNomeMesa())
                 .child("hasTip");
 
-        mesaReferencia.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                boolean hasTip = (Boolean)dataSnapshot.getValue();
-                if(hasTip){
-                    switchTip.setChecked(true);
-                }else{
-                    switchTip.setChecked(false);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        VerificacoesMesaHelper.verificaTipMesa(mesaReferencia,modelGetMesaVerificaTip.getSwitchTip());
     }
 
 
-    public void addGorjetaMesaFirebase(final String idUser, final String nomeMesa,
-                                       final TextView txtTotal, final int gorjeta){
+    public void addGorjetaMesaFirebase(final ModelGetMesa modelGetMesaGorjeta){
 
+        final DatabaseReference totalReferencia = firebaseReferencia.child("users/"+
+                modelGetMesaGorjeta.getIdUser()+
+                "/mesas"+
+                modelGetMesaGorjeta.getNomeMesa()+
+                "/total");
 
-        final DatabaseReference mesaReferencia = firebaseReferencia.child("users")
-                .child(idUser)
-                .child("mesas")
-                .child(nomeMesa)
-                .child("total");
-        final DatabaseReference gorjetaReferencia = firebaseReferencia.child("users")
-                .child(idUser)
-                .child("mesas")
-                .child(nomeMesa)
-                .child("totalComGorjeta");
-        final DatabaseReference hasTipReferencia = firebaseReferencia.child("users")
-                .child(idUser)
-                .child("mesas")
-                .child(nomeMesa)
-                .child("hasTip");
-        final DatabaseReference valorGorjetaReferencia = firebaseReferencia.child("users")
-                .child(idUser)
-                .child("mesas")
-                .child(nomeMesa)
-                .child("valorGorjeta");
-        mesaReferencia.addListenerForSingleValueEvent(new ValueEventListener() {
+        final DatabaseReference mesaReferencia = firebaseReferencia.child("users/"+
+                modelGetMesaGorjeta.getIdUser()+
+                "/mesas"+
+                modelGetMesaGorjeta.getNomeMesa());
+
+        totalReferencia.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String stringTotal = String.valueOf(dataSnapshot.getValue());
                 double total = Double.parseDouble(stringTotal);
-                double valorGorjeta = calculatorControl.addGorjeta(total,gorjeta);
-                gorjetaReferencia.setValue(total+valorGorjeta);
-                valorGorjetaReferencia.setValue(gorjeta);
-                hasTipReferencia.setValue(true);
-                txtTotal.setText(txtTotal.getContext().getResources().getString(R.string.total_mesa)+String.format("%.2f",total+valorGorjeta));
+                MesaReferenciaHelper.helperAddGorjetaMesa(modelGetMesaGorjeta,mesaReferencia,total);
             }
 
             @Override
@@ -168,7 +140,6 @@ public class FirebaseService {
 
             }
         });
-
 
     }
 

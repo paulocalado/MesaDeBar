@@ -28,6 +28,7 @@ import android.app.Service;
 import com.codgin.paulo.mesadebar.Control.CalculatorControl;
 import com.codgin.paulo.mesadebar.HomeMesa;
 import com.codgin.paulo.mesadebar.Model.Mesa;
+import com.codgin.paulo.mesadebar.Model.ModelGetMesa;
 import com.codgin.paulo.mesadebar.Model.Pessoa;
 import com.codgin.paulo.mesadebar.Model.Produto;
 import com.codgin.paulo.mesadebar.ProdutoAdapter;
@@ -200,10 +201,11 @@ public class DialogService {
                 R.string.positive_button,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        firebaseService.addGorjetaMesaFirebase(idUser,nomeMesa,textTotalMesa,Integer.parseInt(String.valueOf(input.getText())));
-                       /* String nomePessoa = input.getText().toString();
-                        Pessoa pessoa = new Pessoa(nomePessoa,0);
-                        firebaseService.addPessoaMesaFirebase(idUser, nomeMesa, pessoa);*/
+                        ModelGetMesa modelGetMesaGorjeta = new ModelGetMesa(idUser,
+                                nomeMesa,textTotalMesa,
+                                Integer.parseInt(String.valueOf(input.getText())));
+                        firebaseService.addGorjetaMesaFirebase(modelGetMesaGorjeta);
+
                         dialog.cancel();
                     }
                 });

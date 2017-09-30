@@ -2,6 +2,8 @@ package com.codgin.paulo.mesadebar.Model;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 
@@ -11,15 +13,25 @@ import com.google.firebase.database.DatabaseReference;
 
 public class ModelGetMesa {
     String idUser;
+    String nomeMesa;
+    Switch switchTip;
     Context context;
     RecyclerView rvListaMesa;
-    DatabaseReference mesaReferencia;
+    TextView txtTotal;
+    int gorjeta;
 
-    public ModelGetMesa(String idUser, Context context, RecyclerView rvListaMesa, DatabaseReference mesaReferencia) {
+    public ModelGetMesa(final String idUser, final String nomeMesa,
+                        final TextView txtTotal,  int gorjeta){
         this.idUser = idUser;
-        this.context = context;
-        this.rvListaMesa = rvListaMesa;
-        this.mesaReferencia = mesaReferencia;
+        this.nomeMesa = nomeMesa;
+        this.txtTotal = txtTotal;
+        this.gorjeta = gorjeta;
+    }
+
+    public ModelGetMesa(String idUser, String nomeMesa, Switch switchTip){
+        this.idUser = idUser;
+        this.nomeMesa = nomeMesa;
+        this.switchTip = switchTip;
     }
 
     public ModelGetMesa(String idUser, Context context, RecyclerView rvListaMesa) {
@@ -28,12 +40,36 @@ public class ModelGetMesa {
         this.rvListaMesa = rvListaMesa;
     }
 
-    public DatabaseReference getMesaReferencia() {
-        return mesaReferencia;
+    public TextView getTxtTotal() {
+        return txtTotal;
     }
 
-    public void setMesaReferencia(DatabaseReference mesaReferencia) {
-        this.mesaReferencia = mesaReferencia;
+    public void setTxtTotal(TextView txtTotal) {
+        this.txtTotal = txtTotal;
+    }
+
+    public int getGorjeta() {
+        return gorjeta;
+    }
+
+    public void setGorjeta(int gorjeta) {
+        this.gorjeta = gorjeta;
+    }
+
+    public String getNomeMesa() {
+        return nomeMesa;
+    }
+
+    public void setNomeMesa(String nomeMesa) {
+        this.nomeMesa = nomeMesa;
+    }
+
+    public Switch getSwitchTip() {
+        return switchTip;
+    }
+
+    public void setSwitchTip(Switch switchTip) {
+        this.switchTip = switchTip;
     }
 
     public String getIdUser() {

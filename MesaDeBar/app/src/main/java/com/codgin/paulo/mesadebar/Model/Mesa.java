@@ -1,6 +1,7 @@
 package com.codgin.paulo.mesadebar.Model;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Paulo on 17/07/2017.
@@ -12,7 +13,7 @@ public class Mesa {
     float total;
     float totalComGorjeta;
     boolean hasTip;
-    //List<Pessoa> pessoas;
+    Map<String, Pessoa> pessoas;
     public Mesa(){
 
     }
@@ -23,6 +24,14 @@ public class Mesa {
         this.total = total;
         this.totalComGorjeta = totalComGorjeta;
         this.hasTip = hasTip;
+    }
+
+    public Map<String, Pessoa> getPessoas() {
+        return pessoas;
+    }
+
+    public void setPessoas(Map<String, Pessoa> pessoas) {
+        this.pessoas = pessoas;
     }
 
     public float getTotal() {
